@@ -4,6 +4,8 @@
 
 <script>
 import system from "./static/utils/system";
+import toast from "./static/utils/toast.js";
+
 export default {
   config: {
     usingComponents: {},
@@ -13,7 +15,7 @@ export default {
       backgroundTextStyle: "dark",
       backgroundColor: "#fbf7f6",
       navigationBarBackgroundColor: "#ffffff",
-      navigationBarTitleText: "果子熟透了",
+      navigationBarTitleText: "see you",
       navigationBarTextStyle: "black",
       navigationBarBorderColor: "rgba(231, 231, 231, 0.6)"
     },
@@ -44,11 +46,125 @@ export default {
     }
   },
   globalData: {},
+  token: "",
+  env: "dev",
   onLaunch() {
     system.attachInfo();
   },
-  onShow() {},
-  onHide() {}
+  // http 拦截
+  cRequest: function(options) {
+    const reqOpt = JSON.parse(JSON.stringify(options));
+    reqOpt.success = options.success;
+    const isHideToast = options.hideToast;
+    const isHideError = options.hideError;
+    switch (getApp().env) {
+      case "mock":
+        var baseURL = "http://yapi.youhujia.com/mock/39/weixin/v1/";
+        break;
+      case "dev":
+        var baseURL = "http://api-dev.flin.youhujia.com/weixin/v1/";
+        break;
+      case "pro":
+        var baseURL = "https://api.yhcloud.youhujia.com/weixin/v1/";
+        break;
+      default:
+        var baseURL = "http://yapi.youhujia.com/mock/39/weixin/v1/";
+    }
+    let wxReqOption = {
+      method: "GET",
+      header: {
+        Authorization: getApp().token,
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      }
+    };
+    try {
+      delete options.hideToast;
+      delete options.hideError;
+    } catch (e) {}
+
+    options.data = options.data || {};
+    options.url = `${baseURL}${options.url}`;
+
+    Object.assign(wxReqOption, options);
+    Object.assign(wxReqOption, {
+      success: function(res) {
+        toast.hidden();
+        console.info("response:", res.data);
+        const resp = res.data;
+        if (resp && resp.result && resp.result.success) {
+          options.success && options.success(resp.data || {});
+        } else {
+          if (
+            resp.status === 500 ||
+            resp.status === 405 ||
+            resp.status === 404
+          ) {
+            toast.show("warn", resp.error);
+          } else if (resp.result.code == 401) {
+            toast.show("warn", "登录失败", 2000, () => {
+              try {
+                const organizationId = wx.getStorageSync("orgId") || -1;
+                if (organizationId) {
+                  toast.show("loading", "重新登录中...");
+                  getApp().login(organizationId, token => {
+                    if (token) {
+                      getApp().setTokenFromOptions({
+                        token: token
+                      });
+                      getApp().cRequest(reqOpt);
+                    } else {
+                      wx.redirectTo({
+                        url: "/pages/register/register"
+                      });
+                    }
+                  });
+                }
+              } catch (e) {}
+            });
+          } else if (resp.result.code == 500) {
+            toast.show("warn", "服务器错误");
+          } else if (resp.result.code == 1002 || resp.result.code == 11514) {
+            if (!isHideError) {
+              toast.show("warn", resp.result.displaymsg, 2000, () => {
+                wx.navigateTo({
+                  url: "/pages/user/add-family/add-family"
+                });
+              });
+            }
+          } else if (!resp.result.success && resp.result.displaymsg) {
+            toast.show("warn", resp.result.displaymsg);
+          }
+          options.fail && options.fail(res);
+        }
+      },
+      fail: function(res) {
+        console.warn(res);
+        toast.hidden();
+        toast.showNormalToast("请求失败");
+
+        setTimeout(() => {
+          toast.hidden();
+        }, 4000);
+        options.error && options.fail(res.data);
+      },
+      complete: function(res) {
+        options.complete && options.complete(res.data);
+      }
+    });
+
+    if (!isHideToast) {
+      toast.showNormalToast(
+        wxReqOption.method == "GET" ? "加载中..." : "请求中..."
+      );
+    }
+    wx.request(wxReqOption);
+  },
+  setTokenFromOptions(options) {
+    if (options.token) {
+      getApp().token = options.token;
+    }
+  }
 };
 </script>
 

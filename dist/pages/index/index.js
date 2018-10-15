@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+var app = getApp();
 exports.default = Page({
   data: {
     NAV_HEIGHT: wx.STATUS_BAR_HEIGHT + wx.DEFAULT_HEADER_HEIGHT + "px",
@@ -29,9 +30,17 @@ exports.default = Page({
     imgSrc: "http://images.uileader.com/20180413/724c6ad5-b6e0-4971-adeb-f4f502c7243e.png"
   },
   swiperChange: function swiperChange(e) {
-    console.log(e);
     this.setData({
       swiperCurrent: e.detail.current
+    });
+  },
+  onShow: function onShow() {
+    console.log("开始http请求");
+    app.cRequest({
+      url: "/home",
+      success: function success(res) {
+        console.log(res);
+      }
     });
   }
 });
