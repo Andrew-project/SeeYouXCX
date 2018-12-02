@@ -27,7 +27,8 @@ exports.default = Page({
       src: "http://images.uileader.com/20171110/37cc4a4e-a253-4fcd-a4f6-d9710e8f63e8.jpg",
       title: "七夕好货，独家礼赠"
     }],
-    imgSrc: "http://images.uileader.com/20180413/724c6ad5-b6e0-4971-adeb-f4f502c7243e.png"
+    imgSrc: "http://images.uileader.com/20180413/724c6ad5-b6e0-4971-adeb-f4f502c7243e.png",
+    mockImgs: ["http://images.uileader.com/20171110/e33376a8-c599-42e5-87ed-84aec360a61d.jpg"]
   },
   swiperChange: function swiperChange(e) {
     this.setData({
@@ -35,12 +36,12 @@ exports.default = Page({
     });
   },
   onShow: function onShow() {
-    console.log("开始http请求");
-    app.cRequest({
-      url: "/home",
-      success: function success(res) {
-        console.log(res);
-      }
-    });
+    // console.log("开始http请求");
+    // app.cRequest({
+    //   url: "/home",
+    //   success: res => {
+    //     console.log(res);
+    //   }
+    // });
   }
 });

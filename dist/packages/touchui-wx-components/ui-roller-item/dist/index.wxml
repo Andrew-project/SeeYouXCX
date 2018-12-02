@@ -1,3 +1,0 @@
-<view class="ui-roller-item" style="{{itemStyle}};{{positionStyle}}">
-  <slot></slot>
-</view>

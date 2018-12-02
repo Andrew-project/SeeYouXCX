@@ -18,15 +18,41 @@
             </block>
         </swiper>
 
-        <view class="dots">
+        <!-- <view class="dots">
             <block wx:for="{{items}}" wx:key="unique">
                 <view class="dot{{index == swiperCurrent ? ' active' : ''}}"></view>
             </block>
+        </view> -->
+    </view>
+
+    <view class="padding-width-xsm padding-height-xs clearfloat background-color-white">
+        <view class="item clearfloat">
+            <image src="http://images.uileader.com/20171110/e5b64484-b5e0-472a-bf52-ac95fb5685d3.jpg" class="avatarUrl"></image>
+            <view class="item-content">
+                <view class="h2">麻辣烫不烫<text class="float-right h3">昨天</text></view>
+                <view class="h3 padding-right-xsm margin-height-xs desc">如果明天不下雨，我们就去动物园</view>
+                <view>
+                    <block wx:if="{{mockImgs.length == 1}}">
+                        <image src="{{mockImgs[0]}}" mode="aspectFit" class="single-img margin-bottom-xsm"></image>
+                    </block>
+                    <block wx:else>
+                        <view wx:for="{{mockImgs}}" wx:for-item="img" class="c-img float-left margin-bottom-xsm">
+                            <image src="{{img}}" mode="aspectFit"></image>
+                        </view>
+                    </block>
+                </view>
+                <view><text class="h5 address iconfont icon-shouye">北京.大屯</text>
+                    <view class="float-right"><text class="iconfont icon-zixun"></text></view>
+                </view>
+                <view class="dialog-box dialog-box-1">
+                    <text class="triangle"></text>
+                </view>
+            </view>
         </view>
     </view>
 
-   <view class="roller_content">
-        <ui-row height="30">
+    <!-- <view class="roller_content"> -->
+    <!-- <ui-row height="30">
           <ui-col span="2" vertical-align="middle">
             <image src="{{imgSrc}}" style="width:100%;height:11px;" width="100%" mode="aspectFill"></image>
           </ui-col>
@@ -45,8 +71,8 @@
             <view style="margin-top: -2px">更多</view>
             </ui-col>
         </ui-row>
-      </view>
-      </view>
+      </view> -->
+    <!-- </view> -->
 </template>
 
 <script>
@@ -88,7 +114,10 @@ export default {
       }
     ],
     imgSrc:
-      "http://images.uileader.com/20180413/724c6ad5-b6e0-4971-adeb-f4f502c7243e.png"
+      "http://images.uileader.com/20180413/724c6ad5-b6e0-4971-adeb-f4f502c7243e.png",
+    mockImgs: [
+      "http://images.uileader.com/20171110/e33376a8-c599-42e5-87ed-84aec360a61d.jpg"
+    ]
   },
   swiperChange: function(e) {
     this.setData({
@@ -96,13 +125,13 @@ export default {
     });
   },
   onShow: function() {
-    console.log("开始http请求");
-    app.cRequest({
-      url: "/home",
-      success: res => {
-        console.log(res);
-      }
-    });
+    // console.log("开始http请求");
+    // app.cRequest({
+    //   url: "/home",
+    //   success: res => {
+    //     console.log(res);
+    //   }
+    // });
   }
 };
 </script>
@@ -156,5 +185,65 @@ export default {
 
 .roller-text {
   .mix-text-overflow();
+}
+
+.item {
+  .avatarUrl {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 50%;
+    float: left;
+  }
+
+  .item-content {
+    width: 540rpx;
+    float: left;
+    margin-left: 30rpx;
+    float: left;
+    margin-top: 15rpx;
+
+    .desc {
+      line-height: 1.5;
+    }
+
+    .single-img {
+      width: 350rpx;
+      height: 430rpx;
+    }
+
+    .c-img {
+      width: 255rpx;
+      height: 255rpx;
+    }
+
+    .c-img:nth-of-type(2n) {
+      margin-left: 20rpx;
+    }
+
+    .address {
+      color: #00c1c1;
+    }
+
+    .dialog-box {
+      width: 540rpx;
+      min-height: 60rpx;
+      border: 1px solid #f5f5f5;
+      position: relative;
+      margin-top: 20rpx;
+      background-color: #f5f5f5;
+    }
+
+    .dialog-box-1 .triangle {
+      width: 0;
+      height: 0;
+      border-top: 20rpx solid transparent;
+      border-right: 20rpx solid transparent;
+      border-bottom: 20rpx solid #f5f5f5;
+      border-left: 20rpx solid transparent;
+      position: absolute;
+      top: -40rpx;
+      left: 20rpx;
+    }
+  }
 }
 </style>
