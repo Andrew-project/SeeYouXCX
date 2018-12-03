@@ -19,7 +19,7 @@
     "theme-color": "#ff6630"
   },
   "tabBar": {
-    "borderStyle": "black",
+    "borderStyle": "white",
     "backgroundColor": "#fff",
     "selectedColor": "#e68664",
     "list": [

@@ -1,4 +1,7 @@
 <template>
+<view class="pull-icon">
+  <view class="bottom-divide"></view>
+</view>
 <view>
     <ui-nav-bar slot="nav-bar" class="nav_bar" custom-style="{{ {backgroundColor:'#fff'} }}">
         <ui-row height="46">
@@ -25,29 +28,39 @@
         </view> -->
     </view>
 
-    <view class="padding-width-xsm padding-height-xs clearfloat background-color-white">
-        <view class="item clearfloat">
-            <image src="http://images.uileader.com/20171110/e5b64484-b5e0-472a-bf52-ac95fb5685d3.jpg" class="avatarUrl"></image>
+    
+
+    <view class="clearfloat background-color-white">
+        <view class="plp iconfont icon-zixun h3">漂流瓶</view>
+        <view class="item clearfloat padding-xsm  padding-bottom-xsm border-line-bottom border-color-global-base" wx:for="[1,2,3,4,5,5]">
+          <scroll-view scroll-y >
+            <image src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" class="avatarUrl" lazy-load="true"></image>
             <view class="item-content">
                 <view class="h2">麻辣烫不烫<text class="float-right h3">昨天</text></view>
                 <view class="h3 padding-right-xsm margin-height-xs desc">如果明天不下雨，我们就去动物园</view>
                 <view>
                     <block wx:if="{{mockImgs.length == 1}}">
-                        <image src="{{mockImgs[0]}}" mode="aspectFit" class="single-img margin-bottom-xsm"></image>
+                        <image src="{{mockImgs[0]}}" mode="aspectFit" lazy-load="true" class="single-img margin-bottom-xsm"></image>
                     </block>
                     <block wx:else>
                         <view wx:for="{{mockImgs}}" wx:for-item="img" class="c-img float-left margin-bottom-xsm">
-                            <image src="{{img}}" mode="aspectFit"></image>
+                            <image src="{{img}}" mode="aspectFit" lazy-load="true"></image>
                         </view>
                     </block>
                 </view>
-                <view><text class="h5 address iconfont icon-shouye">北京.大屯</text>
-                    <view class="float-right"><text class="iconfont icon-zixun"></text></view>
+                <view><text class="iconfont icon-shouye h5"></text><text class="h5 font-color-global-lighter margin-left-xxs">北京.大屯</text>
+                    <view class="float-right"><text class="iconfont icon-zixun" bindtap="focusContent"></text></view>
                 </view>
                 <view class="dialog-box dialog-box-1">
                     <text class="triangle"></text>
+                    <view class="padding-xxs">
+                      <block wx:for="[1,2,3,4,5,6]">
+                      <view class="font-color-blue">昵称：<text class="font-color-global-lighter">x放大论法的精神范德萨练腹肌看电视了分机多少浪费xxx</text></view>
+                      </block>
+                    </view>
                 </view>
             </view>
+          </scroll-view>
         </view>
     </view>
 
@@ -114,10 +127,11 @@ export default {
       }
     ],
     imgSrc:
-      "http://images.uileader.com/20180413/724c6ad5-b6e0-4971-adeb-f4f502c7243e.png",
+      "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
     mockImgs: [
-      "http://images.uileader.com/20171110/e33376a8-c599-42e5-87ed-84aec360a61d.jpg"
-    ]
+      "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+    ],
+    focus: false
   },
   swiperChange: function(e) {
     this.setData({
@@ -132,6 +146,11 @@ export default {
     //     console.log(res);
     //   }
     // });
+  },
+  focusContent: function() {
+    this.setData({
+      focus: true
+    });
   }
 };
 </script>
@@ -139,6 +158,27 @@ export default {
 <style lang="less">
 .nav_bar {
   background-color: #fff;
+}
+
+.pull-icon {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  border: 1px solid #f5f5f5;
+  position: fixed;
+  bottom: -40rpx;
+  left: 325rpx;
+  background-color: #d9d9d9;
+  z-index: 1000;
+}
+
+.bottom-divide {
+  height: 1px;
+  width: 750rpx;
+  left: 0;
+  position: fixed;
+  bottom: 0;
+  background: #d9d9d9;
 }
 
 // 自定义小圆点
@@ -187,6 +227,13 @@ export default {
   .mix-text-overflow();
 }
 
+.plp {
+  position: fixed;
+  right: 0;
+  bottom: 200rpx;
+  z-index: 1000;
+}
+
 .item {
   .avatarUrl {
     width: 120rpx;
@@ -218,10 +265,6 @@ export default {
 
     .c-img:nth-of-type(2n) {
       margin-left: 20rpx;
-    }
-
-    .address {
-      color: #00c1c1;
     }
 
     .dialog-box {
