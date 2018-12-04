@@ -45,9 +45,18 @@ exports.default = Page({
     //   }
     // });
   },
-  focusContent: function focusContent() {
-    this.setData({
-      focus: true
+  routePlp: function routePlp() {
+    wx.navigateTo({
+      url: "/pages/plp/plp",
+      success: function success(res) {
+        // success
+      },
+      fail: function fail() {
+        // fail
+      },
+      complete: function complete() {
+        // complete
+      }
     });
   }
 });

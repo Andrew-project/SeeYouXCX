@@ -1,0 +1,9 @@
+{
+  "usingComponents": {
+    "ui-nav-bar": "../../packages/touchui-wx-components/ui-nav-bar/dist/index"
+  },
+  "navigationBarTitleText": "漂流瓶子",
+  "backgroundColor": "#F4F4F4",
+  "navigationBarTextStyle": "black",
+  "navigationBarBorderColor": "rgba(231, 231, 231, 0.6)"
+}

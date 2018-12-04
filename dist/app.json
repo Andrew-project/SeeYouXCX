@@ -1,6 +1,7 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/plp/plp",
     "pages/user/user"
   ],
   "window": {
