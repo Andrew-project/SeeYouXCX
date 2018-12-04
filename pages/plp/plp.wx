@@ -1,51 +1,82 @@
 <template>
 <view>
-    <ui-nav-bar slot="nav-bar" class="nav_bar" custom-style="{{ {backgroundColor:'#fff'} }}">
+    <!-- <ui-nav-bar slot="nav-bar" class="nav_bar" custom-style="{{ {backgroundColor:'#fff'} }}">
         <ui-row height="46">
             <ui-col vertical-align="middle">
                 <view class="text-center">漂流瓶子</view>
             </ui-col>
         </ui-row>
     </ui-nav-bar>
-    <view style="height:{{NAV_HEIGHT}}"></view>
+    <view style="height:{{NAV_HEIGHT}}"></view> -->
     <view>
         <view class="header">
             <!--get.wxml-->
-            <view class="bg-style">
-                <image src="{{bgPng}}" style="height:{{imageHeight}}px;width:{{imageWidth}}px"></image>
-            </view>
-            <button class="btn-style" bindtap="onClick"></button>
-            <view class="slide-mask" style="display:{{maskDisplay}}" bindtap="slideCloseEvent"></view>
-            <view class="slide-menu" style="right: {{slideRight}}px;width: {{slideWidth}}px;height:{{slideHeight}}px;" animation="{{slideAnimation}}">
-                <text>{{contentText}}</text>
-            </view>
-            <view wx:if="{{isPlaying}}" class="speak-style">
-                <image class="sound-style" src="../../static/images/plp/voice_icon_speech_sound_1.png"></image>
-                <image wx:if="{{jv==2}}" class="sound-style" src="../../static/images/plp/voice_icon_speech_sound_2.png"></image>
-                <image wx:if="{{jv==3}}" class="sound-style" src="../../static/images/plp/voice_icon_speech_sound_3.png"></image>
-                <image wx:if="{{jv==4}}" class="sound-style" src="../../static/images/plp/voice_icon_speech_sound_4.png"></image>
-                <image wx:if="{{jv==5}}" class="sound-style" src="../../static/images/plp/voice_icon_speech_sound_5.png"></image>
-            </view>
-        </view>
-        <view class="footer">
-            <!--index.wxml-->
-            <view class="play-style">
-                <view class="playstyle">
-                    <image class="img" src="../../static/images/plp/a.png" bindtap="get"></image>
-                    <text class="font-color-global-base">捡一个</text>
+            <view wx:if="{{isGet}}">
+                <view class="header-bg-style">
+                    <image src="../../static/images/plp/plp.png" style="height:{{imageHeight}}px;width:{{imageWidth}}px"></image>
                 </view>
-                <view class="leftstyle">
-                    <image class="img" src="../../static/images/plp/b.png" bindtap="throw"></image>
-                    <text class="font-color-global-base">扔一个</text>
+                <button class="header-btn-style" bindtap="onClick"></button>
+                <view class="header-slide-mask" style="display:{{maskDisplay}}" bindtap="slideCloseEvent"></view>
+                <view class="header-slide-menu" style="right: {{slideRight}}px;width: {{slideWidth}}px;height:{{slideHeight}}px;" animation="{{slideAnimation}}">
+                    <text>{{contentText}}</text>
                 </view>
-                <view class="rightstyle">
-                    <image class="img" src="../../static/images/plp/c.png" bindtap="mine"></image>
-                    <text class="font-color-global-base">我的瓶子</text>
+                <view wx:if="{{isSpeaking}}" class="header-speak-style">
+                    <image class="header-sound-style" src="../../static/images/plp/voice_icon_speech_sound_1.png"></image>
+                    <image wx:if="{{j==2}}" class="header-sound-style" src="../../static/images/plp/voice_icon_speech_sound_2.png"></image>
+                    <image wx:if="{{j==3}}" class="header-sound-style" src="../../static/images/plp/voice_icon_speech_sound_3.png"></image>
+                    <image wx:if="{{j==4}}" class="header-sound-style" src="../../static/images/plp/voice_icon_speech_sound_4.png"></image>
+                    <image wx:if="{{j==5}}" class="header-sound-style" src="../../static/images/plp/voice_icon_speech_sound_5.png"></image>
                 </view>
             </view>
 
+<!-- 扔 -->
+<ui-mask show="{{showMask2}}" top="{{top2}}"  hide-on-tap="{{false}}">
+    <view class="content">
+       <!--write.wxml-->
+            <view class="content-weui-cellscontent- weui-cells_after-title" wx:if="{{!isInput}}">
+                <view class="content-weui-cell">
+                    <view class="content-weui-cell__bd">
+                        <textarea  class="content-weui-textarea" placeholder="请输入文本" style="height: 16em;" bindblur="bindTextAreaBlur" />
+                    </view>
+                </view>
+            </view>
+
+            <view wx:if="{{isSpeaking}}" class="content-speak-style">
+                <image class="content-sound-style" src="../../static/images/plp/voice_icon_speech_sound_1.png"></image>
+                <image wx:if="{{jv==2}}" class="content-sound-style" src="../../static/images/plp/voice_icon_speech_sound_2.png"></image>
+                <image wx:if="{{jv==3}}" class="content-sound-style" src="../../static/images/plp/voice_icon_speech_sound_3.png"></image>
+                <image wx:if="{{jv==4}}" class="content-sound-style" src="../../static/images/plp/voice_icon_speech_sound_4.png"></image>
+                <image wx:if="{{jv==5}}" class="content-sound-style" src="../../static/images/plp/voice_icon_speech_sound_5.png"></image>
+            </view>
+            <image wx:if="{{bottle}}" class="content-bottle-style" animation="{{animationBottle}}" src="../../static/images/plp/bottle.png"></image>
+            <view class="content-play-style">
+                <image style="margin:20rpx 30rpx;height:80rpx;width:80rpx;" class="float-left" src="{{isInput?jp:ht}}" bindtap="inputSwitch"></image>
+                <button class="content-btn-style float-left" bindtouchstart="touchdown" bindtouchend="touchup" bindtap="throwBottle">{{isInput?"按住 说话":"扔出去"}}</button>
+            </view>
+    </view>
+</ui-mask>
+        
         </view>
     </view>
+    <view class="footer">
+        <!--index.wxml-->
+        <view class="footer-play-style">
+            <view class="footer-playstyle">
+                <image class="footer-img" src="../../static/images/plp/a.png" bindtap="onPick"></image>
+                <text class="font-color-global-base">捡一个</text>
+            </view>
+            <view class="footer-leftstyle">
+                <image class="footer-img" src="../../static/images/plp/b.png" bindtap="onThrow"></image>
+                <text class="font-color-global-base">扔一个</text>
+            </view>
+            <view class="footer-rightstyle">
+                <image class="footer-img" src="../../static/images/plp/c.png" bindtap="onMine"></image>
+                <text class="font-color-global-base">我的瓶子</text>
+            </view>
+        </view>
+
+    </view>
+</view>
 </view>
 </template>
 
@@ -60,8 +91,10 @@ export default {
   },
   data: {
     NAV_HEIGHT: wx.STATUS_BAR_HEIGHT + wx.DEFAULT_HEADER_HEIGHT + "px",
-    getPngSecond: "../../static/images/plp/hx.png", //海星
-    getPngThrid: "../../static/images/plp/plp.png", //漂流瓶
+    getPngSecond:
+      "https://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=漂流瓶背景&step_word=&hs=2&pn=12&spn=0&di=53553875430&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=0&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=undefined&cs=2099967262%2C798776133&os=1489901519%2C3084921244&simid=0%2C0&adpicid=0&lpn=0&ln=1460&fr=&fmq=1543921655117_R&fm=&ic=undefined&s=undefined&hd=undefined&latest=undefined&copyright=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&ist=&jit=&cg=&oriquery=&objurl=http%3A%2F%2Fpic43.photophoto.cn%2F20170513%2F0008118263612195_b.jpg&gsm=3c&rpstart=0&rpnum=0&islist=&querylist=&selected_tags=0", //海星
+    getPngThrid:
+      "https://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=漂流瓶背景&step_word=&hs=2&pn=0&spn=0&di=71584950580&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=0&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=undefined&cs=260452725%2C1107576162&os=787211009%2C479372541&simid=0%2C0&adpicid=0&lpn=0&ln=1460&fr=&fmq=1543921655117_R&fm=&ic=undefined&s=undefined&hd=undefined&latest=undefined&copyright=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&ist=&jit=&cg=&bdtype=0&oriquery=&objurl=http%3A%2F%2Fpic.90sjimg.com%2Fback_pic%2Fqk%2Fback_origin_pic%2F00%2F02%2F12%2F00faacb63929a74de7e9ee755f42cd34.jpg&fromurl=ippr_z2C%24qAzdH3FAzdH3Flafij3t_z%26e3Bv54AzdH3Fkjt3tg2AzdH3F9nn0c_z%26e3Bip4s&gsm=0&rpstart=0&rpnum=0&islist=&querylist=&selected_tags=0", //漂流瓶
     isGet: true, //是否捡到了漂流瓶
     maskDisplay: "none",
     slideAnimation: {},
@@ -80,7 +113,8 @@ export default {
     isSpeaking: false, //是否正在说话
     animationBottle: {}, //扔出漂流瓶动画
     bottle: false, //漂流瓶
-    contentInput: "" //内容
+    contentInput: "", //内容
+    showMask2: false
   },
   onLoad: function(param) {
     var _this = this;
@@ -177,6 +211,13 @@ export default {
       clearInterval(_this.timer);
     });
   },
+  onPick: function() {},
+  onThrow: function() {
+    this.setData({
+      showMask2: true
+    });
+  },
+  onMine: function() {},
   //右上角关闭按钮
   onClick: function() {
     var _this = this;
@@ -413,12 +454,12 @@ function throwBottleAnimation() {
 <style lang="less">
 .header {
   /**get.wxss**/
-  .bg-style {
+  .header-bg-style {
     height: 100%;
     width: 100%;
   }
 
-  .btn-style {
+  .header-btn-style {
     height: 200rpx;
     width: 500rpx;
     position: absolute;
@@ -428,7 +469,7 @@ function throwBottleAnimation() {
   }
 
   /*slide-menu*/
-  .slide-mask {
+  .header-slide-mask {
     position: fixed;
     width: 100%;
     top: 0;
@@ -438,7 +479,7 @@ function throwBottleAnimation() {
     z-index: 800;
   }
 
-  .slide-menu {
+  .header-slide-menu {
     position: fixed;
     top: 250rpx;
     background-image: url("https://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=微信漂流瓶背景图&step_word=&hs=2&pn=23&spn=0&di=178608574981&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=0&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=undefined&cs=1854755608%2C2411049120&os=2125031513%2C3733846294&simid=3327343748%2C315944676&adpicid=0&lpn=0&ln=1789&fr=&fmq=1543901130580_R&fm=&ic=undefined&s=undefined&hd=undefined&latest=undefined&copyright=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&ist=&jit=&cg=&bdtype=0&oriquery=&objurl=http%3A%2F%2Fwww.hsyx.cc%2Fwp-content%2Fuploads%2F2016%2F03%2F20160329385.jpg&fromurl=ippr_z2C%24qAzdH3FAzdH3Fooo_z%26e3Bifyx_z%26e3BvvAzdH3F80a8_z%26e3Bip4s&gsm=0&rpstart=0&rpnum=0&islist=&querylist=&selected_tags=0");
@@ -448,7 +489,7 @@ function throwBottleAnimation() {
 
   /**麦克风*/
 
-  .speak-style {
+  .header-speak-style {
     position: fixed;
     height: 240rpx;
     width: 240rpx;
@@ -459,7 +500,7 @@ function throwBottleAnimation() {
     background: #26a5ff;
   }
 
-  .sound-style {
+  .header-sound-style {
     position: absolute;
     width: 74rpx;
     height: 150rpx;
@@ -478,7 +519,7 @@ function throwBottleAnimation() {
     background-size: cover;
   }
 
-  .play-style {
+  .footer-play-style {
     position: fixed;
     bottom: 50rpx;
     left: 0;
@@ -488,7 +529,7 @@ function throwBottleAnimation() {
     color: #fff;
   }
 
-  .playstyle {
+  .footer-playstyle {
     position: absolute;
     width: 160rpx;
     height: 160rpx;
@@ -496,7 +537,7 @@ function throwBottleAnimation() {
     left: 295rpx;
   }
 
-  .leftstyle {
+  .footer-leftstyle {
     position: absolute;
     width: 160rpx;
     height: 160rpx;
@@ -504,7 +545,7 @@ function throwBottleAnimation() {
     left: 67.5rpx;
   }
 
-  .rightstyle {
+  .footer-rightstyle {
     position: absolute;
     width: 160rpx;
     height: 160rpx;
@@ -512,9 +553,116 @@ function throwBottleAnimation() {
     right: 67.5rpx;
   }
 
-  .img {
+  .footer-img {
     width: 160rpx;
     height: 160rpx;
+  }
+}
+
+.content {
+  /**write.wxss**/
+
+  page {
+    background-image: url("http://ac-nfyusptg.clouddn.com/4655b60b4e13f03f8a8c.jpg");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .content-weui-cells {
+    position: relative;
+    margin-top: 1.17647059em;
+    color: #fff;
+    line-height: 1.41176471;
+    font-size: 50rpx;
+  }
+
+  .content-weui-cells_after-title {
+    margin-top: 0;
+  }
+
+  .content-weui-cell {
+    padding: 30rpx 30rpx;
+    position: relative;
+    top: 200rpx;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+  }
+
+  .content-weui-cell:before {
+    content: " ";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 2rpx;
+    border-top: 1rpx solid #d9d9d9;
+    color: #d9d9d9;
+    left: 30rpx;
+  }
+
+  .content-weui-cell:first-child:before {
+    display: none;
+  }
+
+  .content-weui-cell__bd {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+  }
+
+  .content-weui-textarea {
+    display: block;
+    width: 100%;
+    background-color: #f5f5f5;
+  }
+
+  .content-play-style {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 120rpx;
+    width: 100%;
+    background-color: #787878;
+  }
+
+  .content-btn-style {
+    text-align: center;
+    width: 590rpx;
+    height: 80rpx;
+    float: left;
+    margin: 20rpx 20rpx 20rpx 0rpx;
+  }
+
+  /**麦克风*/
+
+  .content-speak-style {
+    position: relative;
+    height: 240rpx;
+    width: 240rpx;
+    border-radius: 20rpx;
+    margin: 50% auto;
+    background: #26a5ff;
+  }
+
+  .content-sound-style {
+    position: absolute;
+    width: 74rpx;
+    height: 150rpx;
+    margin-top: 45rpx;
+    margin-left: 83rpx;
+  }
+
+  .content-bottle-style {
+    width: 200rpx;
+    height: 200rpx;
+    position: fixed;
+    bottom: 170rpx;
+    right: 80rpx;
   }
 }
 </style>

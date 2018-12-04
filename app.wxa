@@ -9,7 +9,7 @@ import toast from "./static/utils/toast.js";
 export default {
   config: {
     usingComponents: {},
-    pages: ["pages/index/index", "pages/plp/plp", "pages/user/user"],
+    pages: ["pages/plp/plp", "pages/index/index", "pages/user/user"],
     window: {
       navigationStyle: "custom",
       backgroundTextStyle: "dark",

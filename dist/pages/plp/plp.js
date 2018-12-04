@@ -7,8 +7,8 @@ var app = getApp();
 exports.default = Page({
   data: {
     NAV_HEIGHT: wx.STATUS_BAR_HEIGHT + wx.DEFAULT_HEADER_HEIGHT + "px",
-    getPngSecond: "../../static/images/plp/hx.png", //海星
-    getPngThrid: "../../static/images/plp/plp.png", //漂流瓶
+    getPngSecond: "https://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=漂流瓶背景&step_word=&hs=2&pn=12&spn=0&di=53553875430&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=0&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=undefined&cs=2099967262%2C798776133&os=1489901519%2C3084921244&simid=0%2C0&adpicid=0&lpn=0&ln=1460&fr=&fmq=1543921655117_R&fm=&ic=undefined&s=undefined&hd=undefined&latest=undefined&copyright=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&ist=&jit=&cg=&oriquery=&objurl=http%3A%2F%2Fpic43.photophoto.cn%2F20170513%2F0008118263612195_b.jpg&gsm=3c&rpstart=0&rpnum=0&islist=&querylist=&selected_tags=0", //海星
+    getPngThrid: "https://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=漂流瓶背景&step_word=&hs=2&pn=0&spn=0&di=71584950580&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=0&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=undefined&cs=260452725%2C1107576162&os=787211009%2C479372541&simid=0%2C0&adpicid=0&lpn=0&ln=1460&fr=&fmq=1543921655117_R&fm=&ic=undefined&s=undefined&hd=undefined&latest=undefined&copyright=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&ist=&jit=&cg=&bdtype=0&oriquery=&objurl=http%3A%2F%2Fpic.90sjimg.com%2Fback_pic%2Fqk%2Fback_origin_pic%2F00%2F02%2F12%2F00faacb63929a74de7e9ee755f42cd34.jpg&fromurl=ippr_z2C%24qAzdH3FAzdH3Flafij3t_z%26e3Bv54AzdH3Fkjt3tg2AzdH3F9nn0c_z%26e3Bip4s&gsm=0&rpstart=0&rpnum=0&islist=&querylist=&selected_tags=0", //漂流瓶
     isGet: true, //是否捡到了漂流瓶
     maskDisplay: "none",
     slideAnimation: {},
@@ -27,7 +27,8 @@ exports.default = Page({
     isSpeaking: false, //是否正在说话
     animationBottle: {}, //扔出漂流瓶动画
     bottle: false, //漂流瓶
-    contentInput: "" //内容
+    contentInput: "", //内容
+    showMask2: false
   },
   onLoad: function onLoad(param) {
     var _this = this;
@@ -124,6 +125,13 @@ exports.default = Page({
       clearInterval(_this.timer);
     });
   },
+  onPick: function onPick() {},
+  onThrow: function onThrow() {
+    this.setData({
+      showMask2: true
+    });
+  },
+  onMine: function onMine() {},
   //右上角关闭按钮
   onClick: function onClick() {
     var _this = this;

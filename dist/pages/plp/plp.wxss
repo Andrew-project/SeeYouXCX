@@ -24,11 +24,11 @@
   /*slide-menu*/
   /**麦克风*/
 }
-.header .bg-style {
+.header .header-bg-style {
   height: 100%;
   width: 100%;
 }
-.header .btn-style {
+.header .header-btn-style {
   height: 200rpx;
   width: 500rpx;
   position: absolute;
@@ -36,7 +36,7 @@
   top: 680rpx;
   opacity: 0;
 }
-.header .slide-mask {
+.header .header-slide-mask {
   position: fixed;
   width: 100%;
   top: 0;
@@ -45,14 +45,14 @@
   background: rgba(0, 0, 0, 0.3);
   z-index: 800;
 }
-.header .slide-menu {
+.header .header-slide-menu {
   position: fixed;
   top: 250rpx;
   background-image: url("https://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=微信漂流瓶背景图&step_word=&hs=2&pn=23&spn=0&di=178608574981&pi=0&rn=1&tn=baiduimagedetail&is=0%2C0&istype=0&ie=utf-8&oe=utf-8&in=&cl=2&lm=-1&st=undefined&cs=1854755608%2C2411049120&os=2125031513%2C3733846294&simid=3327343748%2C315944676&adpicid=0&lpn=0&ln=1789&fr=&fmq=1543901130580_R&fm=&ic=undefined&s=undefined&hd=undefined&latest=undefined&copyright=undefined&se=&sme=&tab=0&width=undefined&height=undefined&face=undefined&ist=&jit=&cg=&bdtype=0&oriquery=&objurl=http%3A%2F%2Fwww.hsyx.cc%2Fwp-content%2Fuploads%2F2016%2F03%2F20160329385.jpg&fromurl=ippr_z2C%24qAzdH3FAzdH3Fooo_z%26e3Bifyx_z%26e3BvvAzdH3F80a8_z%26e3Bip4s&gsm=0&rpstart=0&rpnum=0&islist=&querylist=&selected_tags=0");
   background-size: 100% 100%;
   z-index: 900;
 }
-.header .speak-style {
+.header .header-speak-style {
   position: fixed;
   height: 240rpx;
   width: 240rpx;
@@ -62,7 +62,7 @@
   margin: 50% auto;
   background: #26a5ff;
 }
-.header .sound-style {
+.header .header-sound-style {
   position: absolute;
   width: 74rpx;
   height: 150rpx;
@@ -78,7 +78,7 @@
   background-repeat: no-repeat;
   background-size: cover;
 }
-.footer .play-style {
+.footer .footer-play-style {
   position: fixed;
   bottom: 50rpx;
   left: 0;
@@ -87,28 +87,120 @@
   text-align: center;
   color: #fff;
 }
-.footer .playstyle {
+.footer .footer-playstyle {
   position: absolute;
   width: 160rpx;
   height: 160rpx;
   top: 10rpx;
   left: 295rpx;
 }
-.footer .leftstyle {
+.footer .footer-leftstyle {
   position: absolute;
   width: 160rpx;
   height: 160rpx;
   top: 10rpx;
   left: 67.5rpx;
 }
-.footer .rightstyle {
+.footer .footer-rightstyle {
   position: absolute;
   width: 160rpx;
   height: 160rpx;
   top: 10rpx;
   right: 67.5rpx;
 }
-.footer .img {
+.footer .footer-img {
   width: 160rpx;
   height: 160rpx;
+}
+.content {
+  /**write.wxss**/
+  /**麦克风*/
+}
+.content page {
+  background-image: url("http://ac-nfyusptg.clouddn.com/4655b60b4e13f03f8a8c.jpg");
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.content .content-weui-cells {
+  position: relative;
+  margin-top: 1.17647059em;
+  color: #fff;
+  line-height: 1.41176471;
+  font-size: 50rpx;
+}
+.content .content-weui-cells_after-title {
+  margin-top: 0;
+}
+.content .content-weui-cell {
+  padding: 30rpx 30rpx;
+  position: relative;
+  top: 200rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  align-items: center;
+}
+.content .content-weui-cell:before {
+  content: " ";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 2rpx;
+  border-top: 1rpx solid #d9d9d9;
+  color: #d9d9d9;
+  left: 30rpx;
+}
+.content .content-weui-cell:first-child:before {
+  display: none;
+}
+.content .content-weui-cell__bd {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+  flex: 1;
+}
+.content .content-weui-textarea {
+  display: block;
+  width: 100%;
+  background-color: #f5f5f5;
+}
+.content .content-play-style {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  height: 120rpx;
+  width: 100%;
+  background-color: #787878;
+}
+.content .content-btn-style {
+  text-align: center;
+  width: 590rpx;
+  height: 80rpx;
+  float: left;
+  margin: 20rpx 20rpx 20rpx 0rpx;
+}
+.content .content-speak-style {
+  position: relative;
+  height: 240rpx;
+  width: 240rpx;
+  border-radius: 20rpx;
+  margin: 50% auto;
+  background: #26a5ff;
+}
+.content .content-sound-style {
+  position: absolute;
+  width: 74rpx;
+  height: 150rpx;
+  margin-top: 45rpx;
+  margin-left: 83rpx;
+}
+.content .content-bottle-style {
+  width: 200rpx;
+  height: 200rpx;
+  position: fixed;
+  bottom: 170rpx;
+  right: 80rpx;
 }

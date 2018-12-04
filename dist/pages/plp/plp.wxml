@@ -1,50 +1,78 @@
 <view>
-  <ui-nav-bar slot="nav-bar" class="nav_bar" custom-style="{{ {backgroundColor:'#fff'} }}" _pid="{{_pid}}">
-    <view class="ui-row" style="height:46px;">
-      <view class="ui-col valign-middle" style="">
-        <view class="ui-col-content valign-middle">
-          <view class="text-center">漂流瓶子</view>
-        </view>
-      </view>
-    </view>
-  </ui-nav-bar>
-  <view style="height:{{NAV_HEIGHT}}"></view>
+  <!-- <ui-nav-bar slot="nav-bar" class="nav_bar" custom-style="{{ {backgroundColor:'#fff'} }}">
+        <ui-row height="46">
+            <ui-col vertical-align="middle">
+                <view class="text-center">漂流瓶子</view>
+            </ui-col>
+        </ui-row>
+    </ui-nav-bar>
+    <view style="height:{{NAV_HEIGHT}}"></view> -->
   <view>
     <view class="header">
       <!--get.wxml-->
-      <view class="bg-style">
-        <image src="{{bgPng}}" style="height:{{imageHeight}}px;width:{{imageWidth}}px" />
-      </view>
-      <button class="btn-style" bindtap="onClick"></button>
-      <view class="slide-mask" style="display:{{maskDisplay}}" bindtap="slideCloseEvent"></view>
-      <view class="slide-menu" style="right: {{slideRight}}px;width: {{slideWidth}}px;height:{{slideHeight}}px;" animation="{{slideAnimation}}">
-        <text>{{contentText}}</text>
-      </view>
-      <view wx:if="{{isPlaying}}" class="speak-style">
-        <image class="sound-style" src="../../static/images/plp/voice_icon_speech_sound_1.png" />
-        <image wx:if="{{jv==2}}" class="sound-style" src="../../static/images/plp/voice_icon_speech_sound_2.png" />
-        <image wx:if="{{jv==3}}" class="sound-style" src="../../static/images/plp/voice_icon_speech_sound_3.png" />
-        <image wx:if="{{jv==4}}" class="sound-style" src="../../static/images/plp/voice_icon_speech_sound_4.png" />
-        <image wx:if="{{jv==5}}" class="sound-style" src="../../static/images/plp/voice_icon_speech_sound_5.png" />
-      </view>
-    </view>
-    <view class="footer">
-      <!--index.wxml-->
-      <view class="play-style">
-        <view class="playstyle">
-          <image class="img" src="../../static/images/plp/a.png" bindtap="get" />
-          <text class="font-color-global-base">捡一个</text>
+      <view wx:if="{{isGet}}">
+        <view class="header-bg-style">
+          <image src="../../static/images/plp/plp.png" style="height:{{imageHeight}}px;width:{{imageWidth}}px" />
         </view>
-        <view class="leftstyle">
-          <image class="img" src="../../static/images/plp/b.png" bindtap="throw" />
-          <text class="font-color-global-base">扔一个</text>
+        <button class="header-btn-style" bindtap="onClick"></button>
+        <view class="header-slide-mask" style="display:{{maskDisplay}}" bindtap="slideCloseEvent"></view>
+        <view class="header-slide-menu" style="right: {{slideRight}}px;width: {{slideWidth}}px;height:{{slideHeight}}px;" animation="{{slideAnimation}}">
+          <text>{{contentText}}</text>
         </view>
-        <view class="rightstyle">
-          <image class="img" src="../../static/images/plp/c.png" bindtap="mine" />
-          <text class="font-color-global-base">我的瓶子</text>
+        <view wx:if="{{isSpeaking}}" class="header-speak-style">
+          <image class="header-sound-style" src="../../static/images/plp/voice_icon_speech_sound_1.png" />
+          <image wx:if="{{j==2}}" class="header-sound-style" src="../../static/images/plp/voice_icon_speech_sound_2.png" />
+          <image wx:if="{{j==3}}" class="header-sound-style" src="../../static/images/plp/voice_icon_speech_sound_3.png" />
+          <image wx:if="{{j==4}}" class="header-sound-style" src="../../static/images/plp/voice_icon_speech_sound_4.png" />
+          <image wx:if="{{j==5}}" class="header-sound-style" src="../../static/images/plp/voice_icon_speech_sound_5.png" />
         </view>
       </view>
 
+      <!-- 扔 -->
+      <ui-mask show="{{showMask2}}" top="{{top2}}" hide-on-tap="{{false}}" _pid="{{_pid}}">
+        <view class="content">
+          <!--write.wxml-->
+          <view class="content-weui-cellscontent- weui-cells_after-title" wx:if="{{!isInput}}">
+            <view class="content-weui-cell">
+              <view class="content-weui-cell__bd">
+                <textarea class="content-weui-textarea" placeholder="请输入文本" style="height: 16em;" bindblur="bindTextAreaBlur">
+                    </textarea></view>
+            </view>
+          </view>
+
+          <view wx:if="{{isSpeaking}}" class="content-speak-style">
+            <image class="content-sound-style" src="../../static/images/plp/voice_icon_speech_sound_1.png" />
+            <image wx:if="{{jv==2}}" class="content-sound-style" src="../../static/images/plp/voice_icon_speech_sound_2.png" />
+            <image wx:if="{{jv==3}}" class="content-sound-style" src="../../static/images/plp/voice_icon_speech_sound_3.png" />
+            <image wx:if="{{jv==4}}" class="content-sound-style" src="../../static/images/plp/voice_icon_speech_sound_4.png" />
+            <image wx:if="{{jv==5}}" class="content-sound-style" src="../../static/images/plp/voice_icon_speech_sound_5.png" />
+          </view>
+          <image wx:if="{{bottle}}" class="content-bottle-style" animation="{{animationBottle}}" src="../../static/images/plp/bottle.png" />
+          <view class="content-play-style">
+            <image style="margin:20rpx 30rpx;height:80rpx;width:80rpx;" class="float-left" src="{{isInput?jp:ht}}" bindtap="inputSwitch" />
+            <button class="content-btn-style float-left" bindtouchstart="touchdown" bindtouchend="touchup" bindtap="throwBottle">{{isInput?"按住 说话":"扔出去"}}</button>
+          </view>
+        </view>
+      </ui-mask>
+
     </view>
+  </view>
+  <view class="footer">
+    <!--index.wxml-->
+    <view class="footer-play-style">
+      <view class="footer-playstyle">
+        <image class="footer-img" src="../../static/images/plp/a.png" bindtap="onPick" />
+        <text class="font-color-global-base">捡一个</text>
+      </view>
+      <view class="footer-leftstyle">
+        <image class="footer-img" src="../../static/images/plp/b.png" bindtap="onThrow" />
+        <text class="font-color-global-base">扔一个</text>
+      </view>
+      <view class="footer-rightstyle">
+        <image class="footer-img" src="../../static/images/plp/c.png" bindtap="onMine" />
+        <text class="font-color-global-base">我的瓶子</text>
+      </view>
+    </view>
+
   </view>
 </view>
