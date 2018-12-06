@@ -1,6 +1,7 @@
 {
   "usingComponents": {
-    "ui-mask": "../../packages/touchui-wx-components/ui-mask/dist/index"
+    "ui-mask": "../../packages/touchui-wx-components/ui-mask/dist/index",
+    "ui-badge": "../../packages/touchui-wx-components/ui-badge/dist/index"
   },
   "navigationBarTitleText": "漂流瓶子",
   "backgroundColor": "#F4F4F4",

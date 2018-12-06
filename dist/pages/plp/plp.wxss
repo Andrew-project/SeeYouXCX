@@ -34,7 +34,6 @@
   position: absolute;
   right: 125rpx;
   top: 680rpx;
-  opacity: 0;
 }
 .header .header-slide-mask {
   position: fixed;
@@ -90,23 +89,25 @@
 .footer .footer-playstyle {
   position: absolute;
   width: 160rpx;
-  height: 160rpx;
   top: 10rpx;
   left: 295rpx;
 }
 .footer .footer-leftstyle {
   position: absolute;
   width: 160rpx;
-  height: 160rpx;
   top: 10rpx;
   left: 67.5rpx;
 }
 .footer .footer-rightstyle {
   position: absolute;
   width: 160rpx;
-  height: 160rpx;
   top: 10rpx;
   right: 67.5rpx;
+}
+.footer .footer-rightstyle .badge {
+  position: absolute;
+  top: -10rpx;
+  right: -10rpx;
 }
 .footer .footer-img {
   width: 160rpx;
