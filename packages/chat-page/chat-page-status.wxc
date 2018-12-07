@@ -1,0 +1,32 @@
+<template name="chat-page-status">
+    <view style="background-color: {{chatStatue==='open'?'#40c9ff':'#888888'}};" class="chat-page-status-style">
+        {{chatStatusContent}}
+    </view>
+</template>
+<script>
+export default {
+  properties: {
+    chatStatue: {
+      type: String
+    },
+    chatStatusContent: {
+      type: String
+    }
+  }
+};
+</script>
+<style lang="less" scoped>
+.chat-page-status-style {
+  width: 100%;
+  height: 54rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26rpx;
+  color: white;
+  position: fixed;
+  top: 135rpx;
+  left: 0;
+  z-index: 20;
+}
+</style>

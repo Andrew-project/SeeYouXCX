@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "voice": "./voice",
+    "chat-extra-function-part": "./extra"
+  },
+  "component": true
+}

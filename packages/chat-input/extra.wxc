@@ -1,0 +1,59 @@
+<template name="chat-extra-function-part">
+    <view  class="extra-super" >
+        <view wx:for="{{chatInputExtraArr}}" wx:key="{{index}}" class="flex-column" style="width: 25%" bindtap="chatInputExtraItemClickEvent" data-index="{{index}}">
+            <image class="extra-image-size" src="../../static/images/chat/extra/{{item.picName}}.png" />
+            <text class="extra-text-size">{{item.description}}</text>
+        </view>
+    </view>
+</template>
+<script>
+export default {
+  properties: {
+    chatInputExtraArr: {
+      type: Array
+    }
+  },
+  methods: {
+    chatInputExtraItemClickEvent: function(e) {
+      console.log(e)
+      console.log(111)
+      this.triggerEvent("chatInputExtraItemClickEvent", e);
+    }
+  }
+};
+</script>
+<style lang="less" scoped>
+.press-style {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.press-style-opacity {
+  opacity: 0.5;
+}
+
+.extra-super {
+  display: flex;
+  padding-top: 25rpx;
+  height: 234rpx;
+  width: 100%;
+  background-color: white;
+}
+.extra-image-size {
+  width: 114rpx;
+  height: 114rpx;
+}
+.extra-text-size {
+  color: #666666;
+  font-size: 24rpx;
+  margin-top: 10rpx;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.flex-row {
+  display: flex;
+}
+</style>

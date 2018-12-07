@@ -1,0 +1,8 @@
+<view class="sendStatusStyle" wx:if="{{sendStatus!=='success'}}">
+  <block wx:if="{{sendStatus==='sending'}}">
+    <common-loading _pid="{{_pid}}"></common-loading>
+  </block>
+  <block wx:if="{{sendStatus==='failed'}}">
+    <image src="../../static/images/chat/send_fail.png" class="chat-loading-common" bindtap="resendMsgEvent" data-resend-index="{{index}}" />
+  </block>
+</view>

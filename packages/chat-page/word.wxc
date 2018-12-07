@@ -1,0 +1,121 @@
+<template name="chat-word">
+    <view style="width: 750rpx;display: flex;flex-direction: {{isMy?'row-reverse':'row'}};margin-bottom: {{index===length-1?150:20}}rpx;margin-top: 20rpx;">
+        <image style="width: 70rpx;height: 70rpx;border-radius: 50%;margin-left: 15rpx;margin-right: 15rpx;"
+               src="{{headUrl}}"/>
+        <image wx:if="{{type==='text'||type==='voice'}}" class="chat-list-arrow-style"
+               src="./../../static/images/chat/popu_{{isMy?'blue':'white'}}.png"/>
+
+        <block wx:if="{{type==='text'}}">
+            <view wx:if="{{type==='text'}}" class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}"
+                  style="border-radius: 10rpx;padding: 20rpx;font-size: 30rpx;max-width: 60%;"
+                  bindtap="chatTextItemClickEvent"
+                  data-index="{{index}}">{{content}}</view>
+        </block>
+
+        <block wx:if="{{type==='image'}}">
+            <image wx:if="{{type==='image'}}" class="chat-list-pic-style" src="{{content}}"
+                   mode="aspectFill" bindtap="imageClickEvent" data-url="{{content}}"/>
+        </block>
+        <block wx:if="{{type==='voice'}}">
+            <view style="width: {{(voiceDuration-1)*0.6+10}}%;border-radius: 10rpx;padding: 20rpx;font-size: 30rpx;max-width: 60%;display: flex;justify-content: {{isMy?'flex-end':'flex-start'}}"
+                  class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}"
+                  bindtap="chatVoiceItemClickEvent"
+                  data-voice-path="{{content}}"
+                  data-voice-duration="{{voiceDuration}}"
+                  data-is-my="{{isMy}}"
+                  data-index="{{index}}">
+				  <voice-item isMy="{{isMy}}" isPlaying:isPlaying></voice-item>
+            </view>
+            <view class="voice-duration-style">{{voiceDuration}}"</view>
+        </block>
+        <block wx:if="{{isMy}}">
+			<chat-send-status sendStatus="{{sendStatus}}"index="{{index}}"></chat-send-status>
+        </block>
+    </view>
+</template>
+
+<script>
+export default {
+  config: {
+    usingComponents: {
+      "voice-item": "./voice",
+      "chat-send-status": "./chat-send-status"
+    }
+  },
+  properties: {
+    isMy: {
+      type: Boolean
+    },
+    index: {
+      type: Number
+    },
+    length: {
+      type: Number
+    },
+    headUrl: {
+      type: String
+    },
+    type: {
+      type: String
+    },
+    content: {
+      type: String
+    },
+    voiceDuration: {
+      type: Number
+    },
+    sendStatus: {
+      type: String
+    }
+  },
+  methods: {
+    chatTextItemClickEvent: function(e) {
+      this.triggerEvent("chatTextItemClickEvent", e);
+    },
+    imageClickEvent: function(e) {
+      this.triggerEvent("imageClickEvent", e);
+    },
+    chatVoiceItemClickEvent: function(e) {
+      this.triggerEvent("chatVoiceItemClickEvent", e);
+    }
+  }
+};
+</script>
+<style lang="less" scoped>
+.isMyWordStyle {
+  background-color: #8fcbf7;
+  color: #213d52;
+  margin-right: -1rpx;
+  margin-left: 14rpx;
+  word-wrap: break-word;
+}
+
+.isOtherWordStyle {
+  background-color: white;
+  color: #333333;
+  margin-right: 14rpx;
+  margin-left: -1rpx;
+  word-wrap: break-word;
+}
+
+.chat-list-pic-style {
+  border-radius: 10rpx;
+  margin-left: 5rpx;
+  width: 150rpx;
+  height: 280rpx;
+}
+
+.voice-duration-style {
+  color: #666666;
+  font-size: 26rpx;
+  align-self: center;
+  margin-top: 3rpx;
+  margin-left: 5rpx;
+}
+
+.chat-list-arrow-style {
+  width: 11rpx;
+  height: 20rpx;
+  margin-top: 25rpx;
+}
+</style>

@@ -1,0 +1,4 @@
+<view class="chat-item-head-super-style">
+  <image class="chat-head-style" src="{{headUrl}}" />
+  <text wx:if="{{unread>0}}" class="unread-style">{{unread < 100 ? unread : '99+'}}</text>
+</view>

@@ -1,0 +1,28 @@
+<template name="chat-time">
+    <text wx:if="{{showTime}}" class="chat-list-time-style">{{time}}</text>
+</template>
+<script>
+export default {
+  properties: {
+    showTime: {
+      type: Boolean
+    },
+    time: {
+      type: String
+    }
+  }
+};
+</script>
+<style lang="less" scoped>
+.chat-list-time-style {
+  margin-top: 30rpx;
+  background-color: #cccccc;
+  color: white;
+  padding: 8rpx 10rpx 6rpx 10rpx;
+  border-radius: 6rpx;
+  width: auto;
+  font-size: 22rpx;
+  line-height: 22rpx;
+  text-align: center;
+}
+</style>

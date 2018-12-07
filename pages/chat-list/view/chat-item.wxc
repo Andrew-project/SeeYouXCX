@@ -1,0 +1,78 @@
+<template name="chat-item">
+    <view class="chat-item-style" bindtap="toChatHandler" data-item="{{item}}" hover-class="press-style">
+		<chat-item-head headUrl="{{item.friendHeadUrl}}" unread="{{item.unread}}"></chat-item-head>
+        <view class="chat-item-content-super-style">
+            <view class="chat-item-name-style">{{item.friendName}}</view>
+            <!--<image src="../../static/images/chat/send_fail.png" style="width: 28rpx;height: 28rpx;margin-right: 6rpx;"/>-->
+            <text class="chat-item-content-style">{{item.content}}</text>
+        </view>
+        <view class="chat-item-status-super-style">
+            <view class="chat-item-time-style">{{item.timeStr}}</view>
+        </view>
+    </view>
+    <view class="list-divide-line" style="width: 79.5%;margin-left: 20.5%"/>
+</template>
+
+<script>
+export default {
+  config: {
+    usingComponents: {
+      "chat-item-head": "./chat-item-head"
+    }
+  },
+  properties: {
+    item: {
+      type: Object
+    }
+  },
+  methods: {
+    toChatHandler: function(e) {
+      this.triggerEvent("toChat", e);
+    }
+  }
+};
+</script>
+
+<style lang="less" scoped>
+.chat-item-style {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.chat-item-content-super-style {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.chat-item-name-style {
+  color: #666666;
+  font-size: 32rpx;
+  margin-bottom: 14rpx;
+}
+.chat-item-content-style {
+  min-height: 20rpx;
+  width: 100%;
+  color: #666666;
+  font-size: 26rpx;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.chat-item-status-super-style {
+  position: absolute;
+  right: 34rpx;
+  top: 35rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.chat-item-time-style {
+  color: #999999;
+  font-size: 20rpx;
+  margin-bottom: 20rpx;
+  text-align: right;
+}
+</style>

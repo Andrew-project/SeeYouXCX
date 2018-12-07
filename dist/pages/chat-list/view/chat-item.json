@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "chat-item-head": "./chat-item-head"
+  },
+  "component": true
+}

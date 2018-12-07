@@ -29,7 +29,6 @@
             </block>
         </view> -->
   </view>
-
   <view class="clearfloat background-color-white">
     <view class="plp iconfont icon-zixun h3" bindtap="routePlp">漂流瓶</view>
     <view class="item clearfloat padding-xsm  padding-bottom-xsm border-line-bottom border-color-global-base" wx:for="[1,2,3,4,5,5]">

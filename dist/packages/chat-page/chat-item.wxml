@@ -1,0 +1,9 @@
+<view style="width: 100%;display: flex;flex-direction: column;align-items: center">
+  <block wx:if="{{item.type!=='custom'}}">
+    <chat-time showTime="{{item.showTime}}" time="{{item.time}}" _pid="{{_pid}}"></chat-time>
+    <chat-word bindchatTextItemClickEvent="chatTextItemClickEvent" bindimageClickEvent="imageClickEvent" bindchatVoiceItemClickEvent="chatVoiceItemClickEvent" length="{{length}}" index="{{index}}" headUrl="{{item.headUrl}}" isMy="{{item.isMy}}" showTime="{{item.showTime}}" time="{{item.time}}" content="{{item.content}}" type="{{item.type}}" voiceDuration="{{item.voiceDuration}}" isPlaying="{{item.isPlaying}}" sendStatus="{{item.sendStatus}}" _pid="{{_pid}}"></chat-word>
+  </block>
+  <block wx:else="">
+    <chat-custom content="{{item.content}}" _pid="{{_pid}}"></chat-custom>
+  </block>
+</view>

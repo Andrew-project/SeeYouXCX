@@ -1,0 +1,220 @@
+<!--pages/list/list.wxml-->
+<template>
+<ui-nav-bar slot="nav-bar" class="nav_bar" custom-style="{{ {backgroundColor:'#fff'} }}">
+    <ui-row height="46">
+        <ui-col vertical-align="middle">
+            <view class="text-center">聊天</view>
+        </ui-col>
+    </ui-row>
+</ui-nav-bar>
+<view style="height:{{NAV_HEIGHT}}"></view>
+<view>
+    <chat-page-status chatStatue="{{chatStatue}}" chatStatusContent="{{chatStatusContent}}"></chat-page-status>
+    <scroll-view style="height:{{pageHeight}}px;width: 100%;display: flex;flex-direction: column;margin-top: 72rpx;" scroll-y="true" scroll-top="{{scrollTopVal}}" bindtap="resetInputStatus">
+        <block wx:for="{{chatItems}}" wx:key="{{index}}">
+            <chat-item length="{{chatItems.length}}" index="{{index}}" item="{{item}}" bindchatTextItemClickEvent="chatTextItemClickEvent" bindimageClickEvent="imageClickEvent" bindchatVoiceItemClickEvent="chatVoiceItemClickEvent"></chat-item>
+        </block>
+    </scroll-view>
+    <chat-input inputObj="{{inputObj}}" textMessage="{{textMessage}}" showVoicePart="{{true}}" bindchangeInputWayEvent="changeInputWayEvent" bindchatInputSendTextMessage="chatInputSendTextMessage" bindchatInputBindFocusEvent="chatInputBindFocusEvent" bindchatInputGetValueEvent="chatInputGetValueEvent" bindchatInputSendTextMessage02="chatInputSendTextMessage02" bindchatInputExtraClickEvent="chatInputExtraClickEvent" bindchatInputBindBlurEvent="chatInputBindBlurEvent" bindlongClickVoiceBtn="longClickVoiceBtn" bindsendVoiceMoveEvent="sendVoiceMoveEvent" bindsendVoiceMoveEndEvent="sendVoiceMoveEndEvent"></chat-input>
+</view>
+</template>
+
+<script>
+// pages/list/list.js
+import * as chatInput from "../../packages/chat-input/chat-input-js.js";
+import IMOperator from "./im-operator";
+import UI from "./ui";
+import MsgManager from "./msg-manager";
+
+/**
+ * 聊天页面
+ */
+export default {
+  /**
+   * 页面的初始数据
+   */
+  config: {
+    usingComponents: {
+      "chat-page-status": "../../packages/chat-page/chat-page-status",
+      "chat-item": "../../packages/chat-page/chat-item",
+      "chat-input": "../../packages/chat-input/chat-input"
+    }
+  },
+  data: {
+    textMessage: "",
+    chatItems: [],
+    latestPlayVoicePath: "",
+    isAndroid: true,
+    chatStatue: "open",
+    NAV_HEIGHT: wx.STATUS_BAR_HEIGHT + wx.DEFAULT_HEADER_HEIGHT + "px"
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad(options) {
+    const friend = JSON.parse(options.friend);
+    console.log(friend);
+    this.initData();
+    wx.setNavigationBarTitle({
+      title: friend.friendName || ""
+    });
+    this.imOperator = new IMOperator(this, friend);
+    this.UI = new UI(this);
+    this.msgManager = new MsgManager(this);
+
+    this.imOperator.onSimulateReceiveMsg(msg => {
+      this.msgManager.showMsg({
+        msg
+      });
+    });
+    this.UI.updateChatStatus("正在聊天中...");
+  },
+  initData() {
+    let that = this;
+    console.warn(chatInput);
+    let systemInfo = wx.getSystemInfoSync();
+    chatInput.init(this, {
+      systemInfo: systemInfo,
+      minVoiceTime: 1,
+      maxVoiceTime: 60,
+      startTimeDown: 56,
+      format: "mp3", //aac/mp3
+      sendButtonBgColor: "mediumseagreen",
+      sendButtonTextColor: "white",
+      extraArr: [
+        {
+          picName: "choose_picture",
+          description: "照片"
+        },
+        {
+          picName: "take_photos",
+          description: "拍摄"
+        },
+        {
+          picName: "close_chat",
+          description: "自定义功能"
+        }
+      ]
+      // tabbarHeigth: 48
+    });
+
+    that.setData({
+      pageHeight: systemInfo.windowHeight,
+      isAndroid: systemInfo.system.indexOf("Android") !== -1
+    });
+    wx.setNavigationBarTitle({
+      title: "好友"
+    });
+    that.textButton();
+    that.extraButton();
+    that.voiceButton();
+  },
+  textButton() {
+    chatInput.setTextMessageListener(e => {
+      let content = e.detail.value;
+      this.msgManager.sendMsg({
+        type: this.imOperator.TextType(),
+        content
+      });
+    });
+  },
+  voiceButton() {
+    chatInput.recordVoiceListener((res, duration) => {
+      let tempFilePath = res.tempFilePath;
+      this.msgManager.sendMsg({
+        type: this.imOperator.VoiceType(),
+        content: tempFilePath,
+        duration
+      });
+    });
+    chatInput.setVoiceRecordStatusListener(status => {
+      this.msgManager.stopAllVoice();
+    });
+  },
+
+  //模拟上传文件，注意这里的cbOk回调函数传入的参数应该是上传文件成功时返回的文件url，这里因为模拟，我直接用的savedFilePath
+  simulateUploadFile({ savedFilePath, duration, itemIndex, success, fail }) {
+    setTimeout(() => {
+      let urlFromServerWhenUploadSuccess = savedFilePath;
+      success && success(urlFromServerWhenUploadSuccess);
+    }, 1000);
+  },
+  extraButton() {
+    let that = this;
+    chatInput.clickExtraListener(e => {
+      let chooseIndex = parseInt(e.currentTarget.dataset.index);
+      if (chooseIndex === 2) {
+        that.myFun();
+        return;
+      }
+      wx.chooseImage({
+        count: 1, // 默认9
+        sizeType: ["compressed"],
+        sourceType: chooseIndex === 0 ? ["album"] : ["camera"],
+        success: res => {
+          this.msgManager.sendMsg({
+            type: this.imOperator.ImageType(),
+            content: res.tempFilePaths[0]
+          });
+        }
+      });
+    });
+  },
+  /**
+   * 自定义事件
+   */
+  myFun() {
+    wx.showModal({
+      title: "小贴士",
+      content: "演示更新会话状态",
+      confirmText: "确认",
+      showCancel: true,
+      success: res => {
+        if (res.confirm) {
+          this.msgManager.sendMsg({
+            type: this.imOperator.CustomType()
+          });
+        }
+      }
+    });
+  },
+
+  resetInputStatus() {
+    chatInput.closeExtraView();
+  },
+
+  sendMsg({ content, itemIndex, success }) {
+    this.imOperator.onSimulateSendMsg({
+      content,
+      success: msg => {
+        this.UI.updateViewWhenSendSuccess(msg, itemIndex);
+        success && success(msg);
+      },
+      fail: () => {
+        this.UI.updateViewWhenSendFailed(itemIndex);
+      }
+    });
+  },
+  /**
+   * 重发消息
+   * @param e
+   */
+  resendMsgEvent(e) {
+    const itemIndex = parseInt(e.currentTarget.dataset.resendIndex);
+    const item = this.data.chatItems[itemIndex];
+    this.UI.updateDataWhenStartSending(item, false, false);
+    this.msgManager.resend(
+      Object.assign(item, {
+        itemIndex
+      })
+    );
+  }
+};
+</script>
+
+<style lang="less">
+page {
+  background-color: #efefef;
+}
+</style>

@@ -1,0 +1,1 @@
+<text wx:if="{{showTime}}" class="chat-list-time-style">{{time}}</text>

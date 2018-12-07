@@ -1,0 +1,35 @@
+<template name="chat-send-status">
+    <view class="sendStatusStyle" wx:if="{{sendStatus!=='success'}}">
+        <block wx:if="{{sendStatus==='sending'}}">
+            <common-loading></common-loading>
+        </block>
+        <block wx:if="{{sendStatus==='failed'}}">
+            <image src="./../../static/images/chat/send_fail.png" class="chat-loading-common" bindtap="resendMsgEvent" data-resend-index="{{index}}" />
+        </block>
+    </view>
+</template>
+
+<script>
+export default {
+  config: {
+    usingComponents: {
+      "common-loading": "../loading/common"
+    }
+  },
+  properties: {
+    sendStatus: {
+      type: String
+    },
+    index: {
+      type: Number
+    }
+  }
+};
+</script>
+<style lang="less" scoped>
+.sendStatusStyle {
+  height: 100%;
+  display: flex;
+  align-self: center;
+}
+</style>

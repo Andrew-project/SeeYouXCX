@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "voice-item": "./voice",
+    "chat-send-status": "./chat-send-status"
+  },
+  "component": true
+}

@@ -1,0 +1,8 @@
+{
+  "usingComponents": {
+    "chat-time": "./time",
+    "chat-word": "./word",
+    "chat-custom": "./custom"
+  },
+  "component": true
+}

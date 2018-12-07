@@ -1,0 +1,169 @@
+<template>
+<view class="input-flex-column" catchtap="">
+    <view class="input-text-voice-super">
+        <block wx:if="{{showVoicePart}}">
+            <image src="../../static/images/chat/voice/{{inputObj.inputStatus==='voice'?'keyboard':'voice'}}.png" class="extra-btn-style" bindtap="changeInputWayEvent" />
+            <block wx:if="{{inputObj.inputStatus==='voice'}}">
+                <voice voiceObj="{{inputObj.voiceObj}}" canUsePress="{{inputObj.canUsePress}}" inputType="{{inputObj.inputType}}" bindlongClickVoiceBtn="longClickVoiceBtn" bindsendVoiceMoveEvent="sendVoiceMoveEvent" bindsendVoiceMoveEndEvent="sendVoiceMoveEndEvent"></voice>
+            </block>
+        </block>
+        <input wx:if="{{inputObj.inputStatus==='text'}}"
+                   class="chat-input-style" style="margin-left:{{showVoicePart?0:16}}rpx;"
+                   maxlength="500" confirm-type="send" value="{{textMessage}}" bindconfirm="chatInputSendTextMessage" bindfocus="chatInputBindFocusEvent" bindblur="chatInputBindBlurEvent" bindinput="chatInputGetValueEvent"/>
+        <view hover-class="press-style-opacity">
+            <view wx:if="{{inputObj.inputType==='text'}}" class="chat-input-send-button-style" style="background-color: {{inputObj.inputStyle.sendButtonBgColor}};color: {{inputObj.inputStyle.sendButtonTextColor}};" catchtap="chatInputSendTextMessage02">发送</view>
+            <image wx:else class="extra-btn-style" src="../../static/images/chat/extra.png" catchtap="chatInputExtraClickEvent" />
+        </view>
+
+    </view>
+    <block wx:if="{{inputObj.extraObj.chatInputShowExtra}}">
+        <view class="list-divide-line" />
+        <chat-extra-function-part chatInputExtraArr="{{inputObj.extraObj.chatInputExtraArr}}" ></chat-extra-function-part>
+    </block>
+</view>
+</template>
+
+<script>
+let _page;
+let inputObj = {},
+  recorderManager;
+let windowHeight, windowWidth;
+// let voice$position = {toLeft: 0, toBottom: 0};
+let singleVoiceTimeCount = 0;
+let maxVoiceTime = 60,
+  minVoiceTime = 1,
+  startTimeDown = 54;
+let timer;
+let sendVoiceCbOk,
+  sendVoiceCbError,
+  startVoiceRecordCbOk,
+  tabbarHeigth = 0,
+  extraButtonClickEvent,
+  canUsePress = false,
+  voiceFormat;
+let cancelLineYPosition = 0;
+let status = {
+  START: 1,
+  SUCCESS: 2,
+  CANCEL: 3,
+  SHORT: 4,
+  FAIL: 5,
+  UNAUTH: 6
+};
+
+export default {
+  config: {
+    usingComponents: {
+      voice: "./voice",
+      "chat-extra-function-part": "./extra"
+    }
+  },
+  properties: {
+    inputObj: {
+      type: Object
+    },
+    showVoicePart: {
+      type: Number
+    },
+    textMessage: {
+      type: String
+    }
+  },
+  methods: {
+    changeInputWayEvent: function(e) {
+      this.triggerEvent("changeInputWayEvent", e.detail);
+    },
+    chatInputSendTextMessage: function(e) {
+      this.triggerEvent("chatInputSendTextMessage", e.detail);
+    },
+    chatInputBindFocusEvent: function(e) {
+      this.triggerEvent("chatInputBindFocusEvent", e.detail);
+    },
+    chatInputGetValueEvent: function(e) {
+      this.triggerEvent("chatInputGetValueEvent", e.detail);
+    },
+    chatInputBindBlurEvent: function(e) {
+      this.triggerEvent("chatInputBindBlurEvent", e.detail);
+    },
+    chatInputSendTextMessage02: function(e) {
+      this.triggerEvent("chatInputSendTextMessage02", e.detail);
+    },
+    chatInputExtraClickEvent: function(e) {
+      this.triggerEvent("chatInputExtraClickEvent", e.detail);
+    },
+    chatInputExtraItemClickEvent: function(e) {
+      this.triggerEvent("chatInputExtraItemClickEvent", e.detail);
+    },
+    longClickVoiceBtn: function(e) {
+      console.log(e)
+      this.triggerEvent("longClickVoiceBtn", e.detail.target);
+    },
+    sendVoiceMoveEvent: function(e) {
+      this.triggerEvent("sendVoiceMoveEvent", e.detail.target);
+    },
+    sendVoiceMoveEndEvent: function(e) {
+      this.triggerEvent("sendVoiceMoveEndEvent", e.detail.target);
+    }
+  }
+  // let isRecordAuth = false;
+};
+</script>
+
+<style lang="less" scoped>
+input {
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+  width: 100%;
+}
+
+.extra-btn-style {
+  width: 50rpx;
+  height: 50rpx;
+  padding: 25rpx 15rpx;
+  display: flex;
+  flex-shrink: 0;
+}
+
+.input-text-voice-super {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+  width: 100%;
+  align-items: center;
+  height: 100rpx;
+}
+
+.input-flex-column {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
+
+.list-divide-line {
+  width: 100%;
+  height: 234rpx;
+  background-color: #dddddd;
+}
+
+.chat-input-style {
+  border-radius: 10rpx;
+  border: 1rpx solid gainsboro;
+  margin-top: 14rpx;
+  margin-bottom: 13rpx;
+  padding: 10rpx;
+  min-height: 51rpx;
+  background-color: #efefef;
+}
+
+.chat-input-send-button-style {
+  width: 100rpx;
+  padding: 15rpx 0;
+  font-size: 30rpx;
+  text-align: center;
+  margin: 0 10rpx;
+  border-radius: 10rpx;
+}
+</style>

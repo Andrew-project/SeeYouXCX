@@ -12,14 +12,31 @@ var _toast = require("./static/utils/toast.js");
 
 var _toast2 = _interopRequireDefault(_toast);
 
+var _appImDelegate = require("./static/delegate/app-im-delegate.js");
+
+var _appImDelegate2 = _interopRequireDefault(_appImDelegate);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = App({
-  globalData: {},
+  globalData: {
+    userInfo: {}
+  },
   token: "",
   env: "dev",
-  onLaunch: function onLaunch() {
+  onLaunch: function onLaunch(options) {
     _system2.default.attachInfo();
+    this.appIMDelegate = new _appImDelegate2.default(this);
+    this.appIMDelegate.onLaunch(options);
+  },
+  getIMHandler: function getIMHandler() {
+    return this.appIMDelegate.getIMHandlerDelegate();
+  },
+  onHide: function onHide() {
+    this.appIMDelegate.onHide();
+  },
+  onShow: function onShow(options) {
+    this.appIMDelegate.onShow(options);
   },
 
   // http 拦截
