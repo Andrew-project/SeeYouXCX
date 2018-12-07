@@ -2,7 +2,7 @@
   <chat-item-head headUrl="{{item.friendHeadUrl}}" unread="{{item.unread}}" _pid="{{_pid}}"></chat-item-head>
   <view class="chat-item-content-super-style">
     <view class="chat-item-name-style">{{item.friendName}}</view>
-    <!--<image src="./../../image/chat/send_fail.png" style="width: 28rpx;height: 28rpx;margin-right: 6rpx;"/>-->
+    <!--<image src="../../static/images/chat/send_fail.png" style="width: 28rpx;height: 28rpx;margin-right: 6rpx;"/>-->
     <text class="chat-item-content-style">{{item.content}}</text>
   </view>
   <view class="chat-item-status-super-style">

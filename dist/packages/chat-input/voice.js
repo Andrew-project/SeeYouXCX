@@ -16,13 +16,13 @@ exports.default = Component({
     }
   },
   methods: {
-    "longClickVoiceBtn": function longClickVoiceBtn(e) {
+    longClickVoiceBtn: function longClickVoiceBtn(e) {
       this.triggerEvent("longClickVoiceBtn", e);
     },
-    "sendVoiceMoveEvent": function sendVoiceMoveEvent(e) {
+    sendVoiceMoveEvent: function sendVoiceMoveEvent(e) {
       this.triggerEvent("sendVoiceMoveEvent", e);
     },
-    "sendVoiceMoveEndEvent": function sendVoiceMoveEndEvent(e) {
+    sendVoiceMoveEndEvent: function sendVoiceMoveEndEvent(e) {
       this.triggerEvent("sendVoiceMoveEndEvent", e);
     }
   }

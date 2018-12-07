@@ -3,33 +3,32 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var _page = void 0;
-var inputObj = {},
-    recorderManager = void 0;
-var windowHeight = void 0,
-    windowWidth = void 0;
-// let voice$position = {toLeft: 0, toBottom: 0};
-var singleVoiceTimeCount = 0;
-var maxVoiceTime = 60,
-    minVoiceTime = 1,
-    startTimeDown = 54;
-var timer = void 0;
-var sendVoiceCbOk = void 0,
-    sendVoiceCbError = void 0,
-    startVoiceRecordCbOk = void 0,
-    tabbarHeigth = 0,
-    extraButtonClickEvent = void 0,
-    canUsePress = false,
-    voiceFormat = void 0;
-var cancelLineYPosition = 0;
-var status = {
-  START: 1,
-  SUCCESS: 2,
-  CANCEL: 3,
-  SHORT: 4,
-  FAIL: 5,
-  UNAUTH: 6
-};
+// let _page;
+// let inputObj = {},
+//   recorderManager;
+// let windowHeight, windowWidth;
+// // let voice$position = {toLeft: 0, toBottom: 0};
+// let singleVoiceTimeCount = 0;
+// let maxVoiceTime = 60,
+//   minVoiceTime = 1,
+//   startTimeDown = 54;
+// let timer;
+// let sendVoiceCbOk,
+//   sendVoiceCbError,
+//   startVoiceRecordCbOk,
+//   tabbarHeigth = 0,
+//   extraButtonClickEvent,
+//   canUsePress = false,
+//   voiceFormat;
+// let cancelLineYPosition = 0;
+// let status = {
+//   START: 1,
+//   SUCCESS: 2,
+//   CANCEL: 3,
+//   SHORT: 4,
+//   FAIL: 5,
+//   UNAUTH: 6
+// };
 
 exports.default = Component({
   properties: {
@@ -69,11 +68,10 @@ exports.default = Component({
       this.triggerEvent("chatInputExtraItemClickEvent", e.detail);
     },
     longClickVoiceBtn: function longClickVoiceBtn(e) {
-      console.log(e);
       this.triggerEvent("longClickVoiceBtn", e.detail.target);
     },
     sendVoiceMoveEvent: function sendVoiceMoveEvent(e) {
-      this.triggerEvent("sendVoiceMoveEvent", e.detail.target);
+      this.triggerEvent("sendVoiceMoveEvent", e.detail);
     },
     sendVoiceMoveEndEvent: function sendVoiceMoveEndEvent(e) {
       this.triggerEvent("sendVoiceMoveEndEvent", e.detail.target);

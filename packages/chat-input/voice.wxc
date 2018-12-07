@@ -6,7 +6,7 @@
             catch:touchend="sendVoiceMoveEndEvent" id="send$voice$btn" hover-class="btn-voice-press">{{voiceObj.startStatus?'松开 结束':'按住 说话'}}
     </button>
 <view wx:if="{{voiceObj.showCancelSendVoicePart}}" style="width: {{voiceObj.voicePartWidth}}px;height: {{voiceObj.voicePartWidth}}px;display: flex;position: fixed;left: {{voiceObj.voicePartPositionToLeft}}px;bottom: {{voiceObj.voicePartPositionToBottom}}px;justify-content:center;align-items: center;border-radius: 20rpx;">
-    <view style="background-color:black;opacity:{{voiceObj.status==='timeDown'?0.6:0}};width: 100%;height: 100%;border-radius: 20rpx;position: absolute" />
+    <view style="background-color:black;opacity:{{voiceObj.status==='timeDown'?0.6:0}};width: 100%;height: 100%;border-radius: 20rpx;position: absolute"></view>
     <image src="../../static/images/chat/voice/{{voiceObj.status==='start'?(voiceObj.moveToCancel?'recall':'speak'):'attention'}}.png" style="width: 100%;height: 100%;border-radius: 20rpx" wx:if="{{voiceObj.status!=='timeDown'}}" />
     <text style="margin-bottom:30rpx;font-size: 150rpx;text-align: center;color: white;position: relative" wx:if="{{voiceObj.status==='timeDown'}}">{{voiceObj.timeDownNum}}</text>
     <view class="voice-record-git-status-style" wx:if="{{!voiceObj.moveToCancel&&voiceObj.status!=='short'}}">
@@ -30,13 +30,13 @@ export default {
     }
   },
   methods: {
-    "longClickVoiceBtn": function(e) {
+    longClickVoiceBtn: function(e) {
       this.triggerEvent("longClickVoiceBtn", e);
     },
-    "sendVoiceMoveEvent": function(e) {
+    sendVoiceMoveEvent: function(e) {
       this.triggerEvent("sendVoiceMoveEvent", e);
     },
-    "sendVoiceMoveEndEvent": function(e) {
+    sendVoiceMoveEndEvent: function(e) {
       this.triggerEvent("sendVoiceMoveEndEvent", e);
     }
   }

@@ -91,7 +91,7 @@ exports.default = Page({
     });
 
     that.setData({
-      pageHeight: systemInfo.windowHeight,
+      pageHeight: systemInfo.windowHeight * 520 / 667,
       isAndroid: systemInfo.system.indexOf("Android") !== -1
     });
     wx.setNavigationBarTitle({
