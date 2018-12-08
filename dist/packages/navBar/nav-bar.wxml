@@ -1,0 +1,16 @@
+<view>
+  <view class="navigate-title" style="padding-top:{{statusBarHeight+titleBarHeight}}px"></view>
+  <view class="header-title {{!isHome ? 'is-back-title' :'font-white'}}">
+    <view class="{{!isHome ? 'status-bar' : ''}}" style="height:{{statusBarHeight}}px"></view>
+    <view class="title-bar {{isHome ? '' : 'border-bottom-1px'}}" style="height:{{titleBarHeight}}px">
+      <navigator class="left-icon" style="height:{{titleBarHeight}}px" open-type="navigateBack" delta="1">
+        <block wx:if="{{isBack}}">
+          <view class="{{isHome ? 'navigator-white' : 'navigator'}}" style="margin-top: {{titleBarHeight / 2 -4}}px"></view>
+        </block>
+      </navigator>
+      <view class="title" style="height:{{titleBarHeight}}px;line-height: {{titleBarHeight}}px">{{navTitle}}</view>
+      <view class="right-icon" style="height:{{titleBarHeight}}px"></view>
+    </view>
+  </view>
+
+</view>

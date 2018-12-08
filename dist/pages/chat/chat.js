@@ -35,7 +35,8 @@ exports.default = Page({
     latestPlayVoicePath: "",
     isAndroid: true,
     chatStatue: "open",
-    NAV_HEIGHT: wx.STATUS_BAR_HEIGHT + wx.DEFAULT_HEADER_HEIGHT + "px"
+    NAV_HEIGHT: wx.STATUS_BAR_HEIGHT + wx.DEFAULT_HEADER_HEIGHT + "px",
+    title: "好友"
   }
   /**
    * 页面的初始数据
@@ -51,9 +52,12 @@ exports.default = Page({
     var friend = JSON.parse(options.friend);
     console.log(friend);
     this.initData();
-    wx.setNavigationBarTitle({
+    this.setData({
       title: friend.friendName || ""
     });
+    // wx.setNavigationBarTitle({
+    //   title: friend.friendName || ""
+    // });
     this.imOperator = new _imOperator2.default(this, friend);
     this.UI = new _ui2.default(this);
     this.msgManager = new _msgManager2.default(this);
@@ -147,7 +151,8 @@ exports.default = Page({
 
     var that = this;
     chatInput.clickExtraListener(function (e) {
-      var chooseIndex = parseInt(e.currentTarget.dataset.index);
+      console.log(e);
+      var chooseIndex = parseInt(e.detail.currentTarget.dataset.index);
       if (chooseIndex === 2) {
         that.myFun();
         return;
@@ -213,7 +218,7 @@ exports.default = Page({
    * @param e
    */
   resendMsgEvent: function resendMsgEvent(e) {
-    var itemIndex = parseInt(e.currentTarget.dataset.resendIndex);
+    var itemIndex = parseInt(e.detail.currentTarget.dataset.resendIndex);
     var item = this.data.chatItems[itemIndex];
     this.UI.updateDataWhenStartSending(item, false, false);
     this.msgManager.resend(Object.assign(item, {

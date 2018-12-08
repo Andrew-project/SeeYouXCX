@@ -35,7 +35,7 @@ exports.default = Component({
       this.triggerEvent("chatTextItemClickEvent", e);
     },
     imageClickEvent: function imageClickEvent(e) {
-      this.triggerEvent("imageClickEvent", e);
+      this.triggerEvent("imageClickEvent", e.target);
     },
     chatVoiceItemClickEvent: function chatVoiceItemClickEvent(e) {
       this.triggerEvent("chatVoiceItemClickEvent", e);

@@ -1,6 +1,6 @@
 {
   "usingComponents": {
-    "ui-nav-bar": "../../packages/touchui-wx-components/ui-nav-bar/dist/index",
-    "chat-item": "./view/chat-item"
+    "chat-item": "./view/chat-item",
+    "nav-bar": "../../packages/navBar/nav-bar"
   }
 }

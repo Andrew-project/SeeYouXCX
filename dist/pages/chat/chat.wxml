@@ -1,13 +1,4 @@
-<ui-nav-bar slot="nav-bar" class="nav_bar" custom-style="{{ {backgroundColor:'#fff'} }}" _pid="{{_pid}}">
-  <view class="ui-row" style="height:46px;">
-    <view class="ui-col valign-middle" style="">
-      <view class="ui-col-content valign-middle">
-        <view class="text-center">聊天</view>
-      </view>
-    </view>
-  </view>
-</ui-nav-bar>
-<view style="height:{{NAV_HEIGHT}}"></view>
+<nav-bar nav-title="好友" is-back="true" _pid="{{_pid}}"></nav-bar>
 <view>
   <chat-page-status chatStatue="{{chatStatue}}" chatStatusContent="{{chatStatusContent}}" _pid="{{_pid}}"></chat-page-status>
   <scroll-view style="height:{{pageHeight}}px;width: 100%;display: flex;flex-direction: column;margin-top: 72rpx;" scroll-y="true" scroll-top="{{scrollTopVal}}" bindtap="resetInputStatus">
@@ -15,5 +6,5 @@
       <chat-item length="{{chatItems.length}}" index="{{index}}" item="{{item}}" bindchatTextItemClickEvent="chatTextItemClickEvent" bindimageClickEvent="imageClickEvent" bindchatVoiceItemClickEvent="chatVoiceItemClickEvent" _pid="{{_pid}}"></chat-item>
     </block>
   </scroll-view>
-  <chat-input inputObj="{{inputObj}}" textMessage="{{textMessage}}" showVoicePart="{{true}}" bindchangeInputWayEvent="changeInputWayEvent" bindchatInputSendTextMessage="chatInputSendTextMessage" bindchatInputBindFocusEvent="chatInputBindFocusEvent" bindchatInputGetValueEvent="chatInputGetValueEvent" bindchatInputSendTextMessage02="chatInputSendTextMessage02" bindchatInputExtraClickEvent="chatInputExtraClickEvent" bindchatInputBindBlurEvent="chatInputBindBlurEvent" bindlongClickVoiceBtn="longClickVoiceBtn" bindsendVoiceMoveEvent="sendVoiceMoveEvent" bindsendVoiceMoveEndEvent="sendVoiceMoveEndEvent" _pid="{{_pid}}"></chat-input>
+  <chat-input inputObj="{{inputObj}}" textMessage="{{textMessage}}" showVoicePart="{{true}}" bindextraItemClickEvent="chatInputExtraItemClickEvent" bindchangeInputWayEvent="changeInputWayEvent" bindchatInputSendTextMessage="chatInputSendTextMessage" bindchatInputBindFocusEvent="chatInputBindFocusEvent" bindchatInputGetValueEvent="chatInputGetValueEvent" bindchatInputSendTextMessage02="chatInputSendTextMessage02" bindchatInputExtraClickEvent="chatInputExtraClickEvent" bindchatInputBindBlurEvent="chatInputBindBlurEvent" bindlongClickVoiceBtn="longClickVoiceBtn" bindsendVoiceMoveEvent="sendVoiceMoveEvent" bindsendVoiceMoveEndEvent="sendVoiceMoveEndEvent" _pid="{{_pid}}"></chat-input>
 </view>

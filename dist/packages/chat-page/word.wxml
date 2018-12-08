@@ -11,7 +11,7 @@
   </block>
   <block wx:if="{{type==='voice'}}">
     <view style="width: {{(voiceDuration-1)*0.6+10}}%;border-radius: 10rpx;padding: 20rpx;font-size: 30rpx;max-width: 60%;display: flex;justify-content: {{isMy?'flex-end':'flex-start'}}" class="{{isMy?'isMyWordStyle':'isOtherWordStyle'}}" bindtap="chatVoiceItemClickEvent" data-voice-path="{{content}}" data-voice-duration="{{voiceDuration}}" data-is-my="{{isMy}}" data-index="{{index}}">
-      <voice-item isMy="{{isMy}}" isPlaying:isPlaying="" _pid="{{_pid}}"></voice-item>
+      <voice-item isMy="{{isMy}}" isPlaying="{{isPlaying}}" _pid="{{_pid}}"></voice-item>
     </view>
     <view class="voice-duration-style">{{voiceDuration}}"</view>
   </block>

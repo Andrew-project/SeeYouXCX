@@ -31,12 +31,8 @@ exports.default = Page({
         console.log("会话列表", msg);
         msg.type === "get-conversations" && _this.setData({
           conversations: msg.conversations.map(function (item) {
-            console.warn(item);
-            item = Object.assign(item);
-            return item;
-          }
-          // this.getConversationsItem(item)
-          )
+            return _this.getConversationsItem(item);
+          })
         });
       }
     });
@@ -54,7 +50,6 @@ exports.default = Page({
     });
   },
   getConversationsItem: function getConversationsItem(item) {
-    // let { latestMsg, ...msg } = item;
-    // return Object.assign(msg, JSON.parse(latestMsg));
+    return Object.assign(item, JSON.parse(item.latestMsg));
   }
 });

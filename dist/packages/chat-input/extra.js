@@ -11,9 +11,7 @@ exports.default = Component({
   },
   methods: {
     chatInputExtraItemClickEvent: function chatInputExtraItemClickEvent(e) {
-      console.log(e);
-      console.log(111);
-      this.triggerEvent("chatInputExtraItemClickEvent", e);
+      this.triggerEvent("extraItemClickEvent", e);
     }
   }
 });

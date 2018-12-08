@@ -15,9 +15,7 @@ export default {
   },
   methods: {
     chatInputExtraItemClickEvent: function(e) {
-      console.log(e)
-      console.log(111)
-      this.triggerEvent("chatInputExtraItemClickEvent", e);
+      this.triggerEvent("extraItemClickEvent", e);
     }
   }
 };

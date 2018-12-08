@@ -22,17 +22,23 @@ export default {
   properties: {
     item: {
       type: Object
+    },
+    length: {
+      type: Number
+    },
+    index: {
+      type: Number
     }
   },
   methods: {
     chatTextItemClickEvent: function(e) {
-            this.triggerEvent("chatTextItemClickEvent", e);
+      this.triggerEvent("chatTextItemClickEvent", e.detail);
     },
     imageClickEvent: function(e) {
-            this.triggerEvent("imageClickEvent", e);
+      this.triggerEvent("imageClickEvent", e.detail);
     },
     chatVoiceItemClickEvent: function(e) {
-            this.triggerEvent("chatVoiceItemClickEvent", e);
+      this.triggerEvent("chatVoiceItemClickEvent", e.detail);
     }
   }
 };

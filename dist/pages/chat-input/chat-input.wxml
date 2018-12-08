@@ -1,1 +1,0 @@
-<chat-input inputObj="{{inputObj}}" textMessage="{{textMessage}}" showVoicePart="{{true}}" _pid="{{_pid}}"></chat-input>

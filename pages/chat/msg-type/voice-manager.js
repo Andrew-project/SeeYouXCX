@@ -14,7 +14,7 @@ export default class VoiceManager extends FileManager {
         }
         //在该类被初始化时，绑定语音点击播放事件
         this._page.chatVoiceItemClickEvent = (e) => {
-            let dataset = e.currentTarget.dataset;
+            let dataset = e.detail.currentTarget.dataset;
             console.log('语音Item', dataset);
             this._playVoice({
                 dataset
@@ -30,7 +30,7 @@ export default class VoiceManager extends FileManager {
         if (this._page.data.isVoicePlaying) {
             this._stopVoice();
             that.data.chatItems.forEach(item => {
-                if (IMOperator.VoiceType() === item.type) {
+                if (this._page.imOperator.VoiceType() === item.type) {
                     item.isPlaying = false
                 }
             });
@@ -158,7 +158,11 @@ export default class VoiceManager extends FileManager {
     _startPlayVoice(dataset) {
         let that = this._page;
         let chatItems = that.data.chatItems;
+        console.log(chatItems);
+        console.log('开始播放')
+        console.log(dataset.index);
         chatItems[dataset.index].isPlaying = true;
+        console.log(chatItems)
         if (that.data.latestPlayVoicePath && that.data.latestPlayVoicePath !== chatItems[dataset.index].content) { //如果重复点击同一个，则不将该isPlaying置为false
             for (let i = 0, len = chatItems.length; i < len; i++) {
                 if ('voice' === chatItems[i].type && that.data.latestPlayVoicePath === chatItems[i].content) {
@@ -167,6 +171,7 @@ export default class VoiceManager extends FileManager {
                 }
             }
         }
+        console.log(chatItems)
         that.setData({
             chatItems: chatItems,
             isVoicePlaying: true

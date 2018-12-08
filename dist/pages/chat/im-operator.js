@@ -136,7 +136,7 @@ var IMOperator = function () {
             var currentTimestamp = Date.now();
             var time = (0, _time.dealChatTime)(currentTimestamp, this._latestTImestamp);
             var obj = {
-                msgId: 0, //消息id
+                msgId: Math.random() * 100, //消息id
                 friendId: this.getFriendId(), //好友id
                 isMy: isMy, //我发送的消息？
                 showTime: time.ifShowTime, //是否显示该次发送时间

@@ -75,6 +75,9 @@ exports.default = Component({
     },
     sendVoiceMoveEndEvent: function sendVoiceMoveEndEvent(e) {
       this.triggerEvent("sendVoiceMoveEndEvent", e.detail.target);
+    },
+    extraItemClickEvent: function extraItemClickEvent(e) {
+      this.triggerEvent("extraItemClickEvent", e.detail);
     }
     // let isRecordAuth = false;
   } });

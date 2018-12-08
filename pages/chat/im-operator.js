@@ -103,7 +103,7 @@ export default class IMOperator {
         const currentTimestamp = Date.now();
         const time = dealChatTime(currentTimestamp, this._latestTImestamp);
         let obj = {
-            msgId: 0, //消息id
+            msgId: Math.random() * 100, //消息id
             friendId: this.getFriendId(), //好友id
             isMy: isMy, //我发送的消息？
             showTime: time.ifShowTime, //是否显示该次发送时间

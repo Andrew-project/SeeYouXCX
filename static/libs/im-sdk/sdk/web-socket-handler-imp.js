@@ -87,13 +87,13 @@ export default class WebSocketHandlerImp extends IIMHandler {
                 getApp().globalData.userInfo = msg.userInfo;
                 getApp().globalData.friendsId = msg.friendsId;
                 if (this._msgQueue.length) {
-                    // while (temp = this._msgQueue.shift()) {
-                    //     this.sendMsg({
-                    //         content: {...temp,
-                    //             userId: msg.userInfo.userId
-                    //         }
-                    //     });
-                    // }
+                    while (temp = this._msgQueue.shift()) {
+                        this.sendMsg({
+                            content: Object.assign(temp, {
+                                userId: msg.userInfo.userId
+                            })
+                        });
+                    }
                 }
             } else {
                 this._receiveListener && this._receiveListener(msg);

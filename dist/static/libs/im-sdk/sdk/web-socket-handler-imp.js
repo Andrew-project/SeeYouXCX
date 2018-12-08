@@ -131,13 +131,13 @@ var WebSocketHandlerImp = function (_IIMHandler) {
                     getApp().globalData.userInfo = msg.userInfo;
                     getApp().globalData.friendsId = msg.friendsId;
                     if (_this4._msgQueue.length) {
-                        // while (temp = this._msgQueue.shift()) {
-                        //     this.sendMsg({
-                        //         content: {...temp,
-                        //             userId: msg.userInfo.userId
-                        //         }
-                        //     });
-                        // }
+                        while (temp = _this4._msgQueue.shift()) {
+                            _this4.sendMsg({
+                                content: Object.assign(temp, {
+                                    userId: msg.userInfo.userId
+                                })
+                            });
+                        }
                     }
                 } else {
                     _this4._receiveListener && _this4._receiveListener(msg);

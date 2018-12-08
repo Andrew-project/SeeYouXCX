@@ -18,7 +18,7 @@
     </view>
     <block wx:if="{{inputObj.extraObj.chatInputShowExtra}}">
         <view class="list-divide-line" />
-        <chat-extra-function-part chatInputExtraArr="{{inputObj.extraObj.chatInputExtraArr}}" ></chat-extra-function-part>
+        <chat-extra-function-part chatInputExtraArr="{{inputObj.extraObj.chatInputExtraArr}}" bindextraItemClickEvent="extraItemClickEvent" ></chat-extra-function-part>
     </block>
 </view>
 </template>
@@ -102,6 +102,9 @@ export default {
     },
     sendVoiceMoveEndEvent: function(e) {
       this.triggerEvent("sendVoiceMoveEndEvent", e.detail.target);
+    },
+    extraItemClickEvent: function(e) {
+      this.triggerEvent("extraItemClickEvent", e.detail);
     }
   }
   // let isRecordAuth = false;

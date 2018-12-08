@@ -2,7 +2,6 @@
   "pages": [
     "pages/chat-list/chat-list",
     "pages/chat/chat",
-    "pages/chat-input/chat-input",
     "pages/plp/plp",
     "pages/index/index",
     "pages/user/user"

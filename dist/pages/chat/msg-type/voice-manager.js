@@ -40,7 +40,7 @@ var VoiceManager = function (_FileManager) {
         }
         //在该类被初始化时，绑定语音点击播放事件
         _this._page.chatVoiceItemClickEvent = function (e) {
-            var dataset = e.currentTarget.dataset;
+            var dataset = e.detail.currentTarget.dataset;
             console.log('语音Item', dataset);
             _this._playVoice({
                 dataset: dataset
@@ -57,11 +57,13 @@ var VoiceManager = function (_FileManager) {
     _createClass(VoiceManager, [{
         key: "stopAllVoicePlay",
         value: function stopAllVoicePlay() {
+            var _this2 = this;
+
             var that = this._page;
             if (this._page.data.isVoicePlaying) {
                 this._stopVoice();
                 that.data.chatItems.forEach(function (item) {
-                    if (_imOperator2.default.VoiceType() === item.type) {
+                    if (_this2._page.imOperator.VoiceType() === item.type) {
                         item.isPlaying = false;
                     }
                 });
@@ -89,7 +91,7 @@ var VoiceManager = function (_FileManager) {
     }, {
         key: "_playVoice",
         value: function _playVoice(_ref) {
-            var _this2 = this;
+            var _this3 = this;
 
             var dataset = _ref.dataset;
 
@@ -108,10 +110,10 @@ var VoiceManager = function (_FileManager) {
                         url: dataset.voicePath,
                         success: function success(res) {
                             console.log('下载语音成功', res);
-                            _this2.__playVoice({
+                            _this3.__playVoice({
                                 filePath: res.tempFilePath,
                                 success: function success() {
-                                    _this2.stopAllVoicePlay();
+                                    _this3.stopAllVoicePlay();
                                 },
                                 fail: function fail(res) {
                                     console.log('播放失败了', res);
@@ -134,7 +136,7 @@ var VoiceManager = function (_FileManager) {
     }, {
         key: "__playVoice",
         value: function __playVoice(_ref2) {
-            var _this3 = this;
+            var _this4 = this;
 
             var filePath = _ref2.filePath,
                 success = _ref2.success,
@@ -145,11 +147,11 @@ var VoiceManager = function (_FileManager) {
                 this.innerAudioContext.startTime = 0;
                 this.innerAudioContext.play();
                 this.innerAudioContext.onError(function (error) {
-                    _this3.innerAudioContext.offError();
+                    _this4.innerAudioContext.offError();
                     fail && fail(error);
                 });
                 this.innerAudioContext.onEnded(function () {
-                    _this3.innerAudioContext.offEnded();
+                    _this4.innerAudioContext.offEnded();
                     success && success();
                 });
             } else {
@@ -163,14 +165,14 @@ var VoiceManager = function (_FileManager) {
     }, {
         key: "_myPlayVoice",
         value: function _myPlayVoice(filePath, dataset, cbOk, cbError) {
-            var _this4 = this;
+            var _this5 = this;
 
             var that = this._page;
             if (dataset.isMy || that.data.isAndroid) {
                 this.__playVoice({
                     filePath: filePath,
                     success: function success() {
-                        _this4.stopAllVoicePlay();
+                        _this5.stopAllVoicePlay();
                         typeof cbOk === "function" && cbOk();
                     },
                     fail: function fail(res) {
@@ -183,10 +185,10 @@ var VoiceManager = function (_FileManager) {
                     url: dataset.voicePath,
                     success: function success(res) {
                         console.log('下载语音成功', res);
-                        _this4.__playVoice({
+                        _this5.__playVoice({
                             filePath: res.tempFilePath,
                             success: function success() {
-                                _this4.stopAllVoicePlay();
+                                _this5.stopAllVoicePlay();
                                 typeof cbOk === "function" && cbOk();
                             },
                             fail: function fail(res) {
@@ -203,7 +205,11 @@ var VoiceManager = function (_FileManager) {
         value: function _startPlayVoice(dataset) {
             var that = this._page;
             var chatItems = that.data.chatItems;
+            console.log(chatItems);
+            console.log('开始播放');
+            console.log(dataset.index);
             chatItems[dataset.index].isPlaying = true;
+            console.log(chatItems);
             if (that.data.latestPlayVoicePath && that.data.latestPlayVoicePath !== chatItems[dataset.index].content) {
                 //如果重复点击同一个，则不将该isPlaying置为false
                 for (var i = 0, len = chatItems.length; i < len; i++) {
@@ -213,6 +219,7 @@ var VoiceManager = function (_FileManager) {
                     }
                 }
             }
+            console.log(chatItems);
             that.setData({
                 chatItems: chatItems,
                 isVoicePlaying: true

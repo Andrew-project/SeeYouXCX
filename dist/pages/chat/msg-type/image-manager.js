@@ -26,9 +26,10 @@ var ImageManager = function (_FileManager) {
         var _this = _possibleConstructorReturn(this, (ImageManager.__proto__ || Object.getPrototypeOf(ImageManager)).call(this, page));
 
         _this._page.imageClickEvent = function (e) {
+            console.warn(e);
             wx.previewImage({
-                current: e.currentTarget.dataset.url, // 当前显示图片的http链接
-                urls: [e.currentTarget.dataset.url] // 需要预览的图片http链接列表
+                current: e.detail.dataset.url, // 当前显示图片的http链接
+                urls: [e.detail.dataset.url] // 需要预览的图片http链接列表
             });
         };
         return _this;
