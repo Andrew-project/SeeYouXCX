@@ -30,7 +30,7 @@
     </view>
     <view class="clearfloat background-color-white">
         <view class="plp iconfont icon-zixun h3" bindtap="routePlp">漂流瓶</view>
-        <view class="item clearfloat padding-xsm  padding-bottom-xsm border-line-bottom border-color-global-base" wx:for="[1,2,3,4,5,5]">
+        <view class="item clearfloat padding-xsm  padding-bottom-xsm border-line-bottom border-color-global-base" wx:for="[1,2]">
             <scroll-view scroll-y>
                 <image src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" class="avatarUrl" lazy-load="true"></image>
                 <view class="item-content">
@@ -47,19 +47,20 @@
                         </block>
                     </view>
                     <view><text class="iconfont icon-shouye h5"></text><text class="h5 font-color-global-lighter margin-left-xxs">北京.大屯</text>
-                        <view class="float-right"><text class="iconfont icon-zixun" bindtap="focusContent"></text></view>
+                        <view class="float-right"><text class="iconfont icon-zixun margin-right-xsm" bindtap="focusContent"></text><text class="iconfont icon-zixun" bindtap="focusContent"></text></view>
                     </view>
                     <view class="dialog-box dialog-box-1">
                         <text class="triangle"></text>
                         <view class="padding-xxs">
-                            <block wx:for="[1,2,3,4,5,6]">
-                                <view class="font-color-blue">昵称：<text class="font-color-global-lighter">x放大论法的精神范德萨练腹肌看电视了分机多少浪费xxx</text></view>
+                            <block wx:for="[1,2,3]">
+                                <view class="font-color-blue" bindtap="commentToOther">昵称：<text class="font-color-global-lighter">x放大论法的精神范德萨练腹肌看电视了分机多少浪费xxx</text></view>
                             </block>
                         </view>
                     </view>
                 </view>
             </scroll-view>
         </view>
+        <textarea bindblur="bindTextAreaBlur" value="{{comment}}" bindconfirm="confirmComment" auto-height placeholder="{{textareaPlaceHolder}}" fixed="{{true}}" focus="{{focus}}" style="position:absolute;background:#f5f5f5;top:{{inputTop}}px;width:100%;padding:20rpx;z-index:1000;opacity:{{focus? 1 :0}}" />
     </view>
 
     <!-- <view class="roller_content"> -->
@@ -88,6 +89,9 @@
 
 <script>
 const app = getApp();
+
+var QQMapWX = require("../../static/libs/qqmap-wx-jssdk.min.js");
+var qqmapsdk;
 export default {
   config: {
     navigationBarTitleText: "首页",
@@ -129,11 +133,20 @@ export default {
     mockImgs: [
       "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
     ],
-    focus: false
+    focus: false,
+    inputTop: 0,
+    comment: '',
+    textareaPlaceHolder: ''
   },
   swiperChange: function(e) {
     this.setData({
       swiperCurrent: e.detail.current
+    });
+  },
+  onLoad: function() {
+    // 实例化API核心类
+    qqmapsdk = new QQMapWX({
+      key: "YVKBZ-OOCRF-FFPJE-NZHVT-SWGU7-SCFES"
     });
   },
   onShow: function() {
@@ -144,6 +157,33 @@ export default {
     //     console.log(res);
     //   }
     // });
+    this.getUserLocation();
+  },
+  focusContent: function(e) {
+    this.setData({
+      focus: true,
+      comment: '',
+      textareaPlaceHolder: '请赞美你的ta吧~~~~',
+      inputTop: e.detail.y + 20
+    });
+  },
+  bindTextAreaBlur: function(e) {
+    this.setData({
+      focus: false,
+      comment: '',
+      textareaPlaceHolder: '请赞美你的ta吧~~~~',
+      inputTop: 0
+    });
+  },
+  // 回复其他人信息
+  commentToOther: function(e) {
+    this.focusContent(e);
+    this.setData({
+      textareaPlaceHolder: '@xxx:'
+    })
+  },
+  confirmComment: function(e) {
+    console.info(e)
   },
   routePlp: function() {
     wx.navigateTo({
@@ -156,6 +196,107 @@ export default {
       },
       complete: function() {
         // complete
+      }
+    });
+  },
+  getUserLocation: function() {
+    let vm = this;
+    wx.getSetting({
+      success: res => {
+        // res.authSetting['scope.userLocation'] == undefined    表示 初始化进入该页面
+        // res.authSetting['scope.userLocation'] == false    表示 非初始化进入该页面,且未授权
+        // res.authSetting['scope.userLocation'] == true    表示 地理位置授权
+        if (
+          res.authSetting["scope.userLocation"] != undefined &&
+          res.authSetting["scope.userLocation"] != true
+        ) {
+          wx.showModal({
+            title: "请求授权当前位置",
+            content: "需要获取您的地理位置，请确认授权",
+            success: function(res) {
+              if (res.cancel) {
+                wx.showToast({
+                  title: "拒绝授权",
+                  icon: "none",
+                  duration: 1000
+                });
+              } else if (res.confirm) {
+                wx.openSetting({
+                  success: function(dataAu) {
+                    if (dataAu.authSetting["scope.userLocation"] == true) {
+                      wx.showToast({
+                        title: "授权成功",
+                        icon: "success",
+                        duration: 1000
+                      });
+                      //再次授权，调用wx.getLocation的API
+                      vm.getLocation();
+                    } else {
+                      wx.showToast({
+                        title: "授权失败",
+                        icon: "none",
+                        duration: 1000
+                      });
+                    }
+                  },
+                  fail: function(err) {
+                    console.debug(err);
+                  }
+                });
+              }
+            }
+          });
+        } else if (res.authSetting["scope.userLocation"] == undefined) {
+          //调用wx.getLocation的API
+          vm.getLocation();
+        } else {
+          //调用wx.getLocation的API
+          vm.getLocation();
+        }
+      }
+    });
+  },
+  // 微信获得经纬度
+  getLocation: function() {
+    let vm = this;
+    wx.getLocation({
+      type: "wgs84",
+      success: function(res) {
+        var latitude = res.latitude;
+        var longitude = res.longitude;
+        var speed = res.speed;
+        var accuracy = res.accuracy;
+        vm.getLocal(latitude, longitude);
+      },
+      fail: function(res) {
+        console.log("fail" + JSON.stringify(res));
+      }
+    });
+  },
+  // 获取当前地理位置
+  getLocal: function(latitude, longitude) {
+    let vm = this;
+    qqmapsdk.reverseGeocoder({
+      location: {
+        latitude: latitude,
+        longitude: longitude
+      },
+      success: function(res) {
+        console.log(res);
+        let province = res.result.ad_info.province;
+        let city = res.result.ad_info.city;
+        vm.setData({
+          province: province,
+          city: city,
+          latitude: latitude,
+          longitude: longitude
+        });
+      },
+      fail: function(res) {
+        console.log(res);
+      },
+      complete: function(res) {
+        // console.log(res);
       }
     });
   }
