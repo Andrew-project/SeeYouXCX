@@ -34,8 +34,57 @@ exports.default = Page({
     mockImgs: ["https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"],
     focus: false,
     inputTop: 0,
-    comment: '',
-    textareaPlaceHolder: ''
+    comment: "",
+    textareaPlaceHolder: "",
+    showMask: false,
+    customStyle1: {
+      "background-color": "rgba(255, 255, 255, 0)"
+    }
+  },
+  routePlp: function routePlp() {
+    this.setData({
+      showMask: true
+    });
+    // wx.navigateTo({
+    //   url: "/pages/plp/plp",
+    //   success: function(res) {
+    //     // success
+    //   },
+    //   fail: function() {
+    //     // fail
+    //   },
+    //   complete: function() {
+    //     // complete
+    //   }
+    // });
+  },
+  onClickNewIssue: function onClickNewIssue() {
+    wx.navigateTo({
+      url: "/pages/issue/new-issue",
+      success: function success(res) {
+        // success
+      },
+      fail: function fail() {
+        // fail
+      },
+      complete: function complete() {
+        // complete
+      }
+    });
+  },
+  onClickPlp: function onClickPlp() {
+    wx.navigateTo({
+      url: "/pages/plp/plp",
+      success: function success(res) {
+        // success
+      },
+      fail: function fail() {
+        // fail
+      },
+      complete: function complete() {
+        // complete
+      }
+    });
   },
   swiperChange: function swiperChange(e) {
     this.setData({
@@ -43,7 +92,7 @@ exports.default = Page({
     });
   },
   onLoad: function onLoad() {
-    // 实例化API核心类
+    // 实例化API核心类 - 地图
     qqmapsdk = new QQMapWX({
       key: "YVKBZ-OOCRF-FFPJE-NZHVT-SWGU7-SCFES"
     });
@@ -61,16 +110,16 @@ exports.default = Page({
   focusContent: function focusContent(e) {
     this.setData({
       focus: true,
-      comment: '',
-      textareaPlaceHolder: '请赞美你的ta吧~~~~',
+      comment: "",
+      textareaPlaceHolder: "请赞美你的ta吧~~~~",
       inputTop: e.detail.y + 20
     });
   },
   bindTextAreaBlur: function bindTextAreaBlur(e) {
     this.setData({
       focus: false,
-      comment: '',
-      textareaPlaceHolder: '请赞美你的ta吧~~~~',
+      comment: "",
+      textareaPlaceHolder: "请赞美你的ta吧~~~~",
       inputTop: 0
     });
   },
@@ -78,25 +127,11 @@ exports.default = Page({
   commentToOther: function commentToOther(e) {
     this.focusContent(e);
     this.setData({
-      textareaPlaceHolder: '@xxx:'
+      textareaPlaceHolder: "@xxx:"
     });
   },
   confirmComment: function confirmComment(e) {
     console.info(e);
-  },
-  routePlp: function routePlp() {
-    wx.navigateTo({
-      url: "/pages/plp/plp",
-      success: function success(res) {
-        // success
-      },
-      fail: function fail() {
-        // fail
-      },
-      complete: function complete() {
-        // complete
-      }
-    });
   },
   getUserLocation: function getUserLocation() {
     var vm = this;

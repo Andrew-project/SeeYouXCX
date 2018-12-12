@@ -1,0 +1,175 @@
+<template>
+<nav-bar nav-title="~发布你的心情~" is-back="true"></nav-bar>
+<form bindsubmit="onSubmit" report-submit="true">
+    <view class="background-color-white padding-xsm new-issue">
+        <textarea placeholder="这一刻的想法" name="commit" value="{{commit}}" bindblur="inputTextarea" bindinput="inputTextarea"></textarea>
+        <view>
+            <block wx:for="{{pictures}}" wx:for-index="idx">
+                <view class="issue-image {{(idx+1) % 3 == 0 ? '' : 'margin-right-xs'}} margin-bottom-xs">
+                    <image src="{{item}}" bindtap="onPreviewImg" data-img="{{item}}"></image>
+                    <view class="del-img" bindtap="onDelImg" data-idx="{{idx}}"></view>
+                </view>
+            </block>
+            <view class="issue-image margin-bottom-xs" bindtap="onAddImg">
+                <view class="add-issue"></view>
+            </view>
+        </view>
+        <button formType="submit" type="success" class="font-color-white">发布</button>
+    </view>
+</form>
+</template>
+
+<script>
+export default {
+  config: {
+    usingComponents: {
+      "nav-bar": "../../packages/navBar/nav-bar"
+    }
+  },
+  data: {
+    commit: "",
+    pictures: [],
+    hasChooseImg: false
+  },
+  onShow: function() {
+    if (!this.data.hasChooseImg) {
+      this.setData({
+        pictures: [
+          "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+        ]
+      });
+    }
+  },
+  inputTextarea: function(e) {
+    this.setData({
+      commit: e.detail.value
+    });
+  },
+  onPreviewImg: function(e) {
+    this.setData({
+      hasChooseImg: true
+    });
+    wx.previewImage({
+      current: e.currentTarget.dataset.img, // 当前显示图片的http链接
+      urls: [e.currentTarget.dataset.img] // 需要预览的图片http链接列表
+    });
+  },
+  onAddImg: function() {
+    this.setData({
+      hasChooseImg: true
+    });
+    wx.chooseImage({
+      count: 5 - this.data.pictures.length, // 默认9
+      sizeType: ["compressed"],
+      success: res => {
+        console.log(res);
+      }
+    });
+  },
+  onDelImg: function(e) {
+    this.data.pictures.splice(e.currentTarget.dataset.idx, 1);
+    this.setData({
+      pictures: this.data.pictures || []
+    });
+  },
+  onSubmit: function(e) {
+    console.log(this.data);
+    console.log(e);
+    wx.switchTab({
+      url: "/pages/index/index",
+      success: function(res) {
+        // success
+      }
+    });
+  }
+};
+</script>
+
+<style lang="less">
+page {
+  background-color: #fff;
+}
+
+.new-issue {
+  textarea {
+    width: 100%;
+  }
+
+  .issue-image {
+    width: 216rpx;
+    height: 216rpx;
+    display: inline-block;
+    position: relative;
+
+    .del-img {
+      width: 30rpx;
+      height: 30rpx;
+      overflow: hidden;
+      border-radius: 50%;
+      transform: rotate(45deg);
+      border: 2rpx solid red;
+      background: red;
+      position: absolute;
+      right: 0;
+      top: 0;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 16rpx;
+        margin-left: -8rpx;
+        margin-top: -1rpx;
+        border-top: 2rpx solid #ffffff;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        height: 16rpx;
+        margin-left: -1rpx;
+        margin-top: -8rpx;
+        border-left: 2rpx solid #ffffff;
+      }
+    }
+
+    .add-issue {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border: 2rpx solid #e8e8e8;
+      position: relative;
+
+      &::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 160rpx;
+        margin-left: -80rpx;
+        margin-top: -2rpx;
+        border-top: 4rpx solid #e8e8e8;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        height: 160rpx;
+        margin-left: -2rpx;
+        margin-top: -80rpx;
+        border-left: 4rpx solid #e8e8e8;
+      }
+    }
+  }
+
+  button {
+    width: 600rpx;
+    margin: 200rpx auto 0 auto;
+  }
+}
+</style>

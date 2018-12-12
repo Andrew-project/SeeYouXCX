@@ -1,5 +1,7 @@
 <template>
 <view>
+  <nav-bar nav-title="漂流瓶子" is-back="true"></nav-bar>
+
     <view class="header">
         <!--get.wxml-->
         <view class="header-bg-style">
@@ -48,16 +50,16 @@
     <view class="footer">
         <!--index.wxml-->
         <view class="footer-play-style">
-          <view class="footer-leftstyle">
-                <image class="footer-img" src="../../static/images/plp/b.png" bindtap="onThrow"></image>
+          <view class="footer-leftstyle" bindtap="onThrow">
+                <image class="footer-img" src="../../static/images/plp/b.png"></image>
                 <text class="font-color-global-base">扔一个</text>
             </view>
-            <view class="footer-playstyle">
-                <image class="footer-img" src="../../static/images/plp/a.png" bindtap="onPick"></image>
+            <view class="footer-playstyle"  bindtap="onPick">
+                <image class="footer-img" src="../../static/images/plp/a.png"></image>
                 <text class="font-color-global-base">捡一个</text>
             </view>
-            <view class="footer-rightstyle">
-                <image class="footer-img" src="../../static/images/plp/c.png" bindtap="onMine"></image>
+            <view class="footer-rightstyle" bindtap="onMine">
+                <image class="footer-img" src="../../static/images/plp/c.png"></image>
                 <text class="font-color-global-base">我的瓶子</text>
                 <ui-badge text="999" class="badge"></ui-badge>
             </view>
@@ -73,7 +75,10 @@ export default {
     navigationBarTitleText: "漂流瓶子",
     backgroundColor: "#F4F4F4",
     navigationBarTextStyle: "black",
-    navigationBarBorderColor: "rgba(231, 231, 231, 0.6)"
+    navigationBarBorderColor: "rgba(231, 231, 231, 0.6)",
+    usingComponents: {
+      "nav-bar": "../../packages/navBar/nav-bar"
+    }
   },
   data: {
     NAV_HEIGHT: wx.STATUS_BAR_HEIGHT + wx.DEFAULT_HEADER_HEIGHT + "px",
@@ -211,7 +216,20 @@ export default {
     });
   },
   // 我的瓶子
-  onMine: function() {},
+  onMine: function() {
+    wx.switchTab({
+      url: "/pages/chat-list/chat-list",
+      success: function(res) {
+        // success
+      },
+      fail: function() {
+        // fail
+      },
+      complete: function() {
+        // complete
+      }
+    });
+  },
   // 点击遮罩层
   onClickMask: function(e) {
     this.setData({

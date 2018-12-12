@@ -1,4 +1,4 @@
-<nav-bar nav-title="好友" is-back="true" _pid="{{_pid}}"></nav-bar>
+<nav-bar nav-title="{{title}}" is-back="true" _pid="{{_pid}}"></nav-bar>
 <view>
   <chat-page-status chatStatue="{{chatStatue}}" chatStatusContent="{{chatStatusContent}}" _pid="{{_pid}}"></chat-page-status>
   <scroll-view style="height:{{pageHeight}}px;width: 100%;display: flex;flex-direction: column;margin-top: 72rpx;" scroll-y="true" scroll-top="{{scrollTopVal}}" bindtap="resetInputStatus">

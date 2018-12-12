@@ -11,6 +11,7 @@ export default {
   config: {
     usingComponents: {},
     pages: [
+      "pages/issue/new-issue",
       "pages/index/index",
       "pages/chat-list/chat-list",
       "pages/chat/chat",
@@ -42,6 +43,18 @@ export default {
           iconPath: "/static/images/icon_index_tab1.png",
           selectedIconPath: "/static/images/icon_index_tab2.png",
           text: "首页"
+        },
+        // {
+        //   pagePath: "pages/plp/plp",
+        //   iconPath: "/static/images/icon_index_tab1.png",
+        //   selectedIconPath: "/static/images/icon_index_tab2.png",
+        //   text: "漂流瓶"
+        // },
+        {
+          pagePath: "pages/chat-list/chat-list",
+          iconPath: "/static/images/icon_index_tab1.png",
+          selectedIconPath: "/static/images/icon_index_tab2.png",
+          text: "消息"
         },
         {
           pagePath: "pages/user/user",

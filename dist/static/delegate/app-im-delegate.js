@@ -28,7 +28,7 @@ var AppIMDelegate = function () {
         value: function onShow(options) {
             this.iIMHandler.createConnection({
                 options: {
-                    url: 'ws://192.168.0.104:9527'
+                    url: 'ws://192.168.1.113:9527'
                 }
             });
         }

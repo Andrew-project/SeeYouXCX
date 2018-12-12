@@ -1,4 +1,6 @@
 <view>
+  <nav-bar nav-title="漂流瓶子" is-back="true" _pid="{{_pid}}"></nav-bar>
+
   <view class="header">
     <!--get.wxml-->
     <view class="header-bg-style">
@@ -47,16 +49,16 @@
   <view class="footer">
     <!--index.wxml-->
     <view class="footer-play-style">
-      <view class="footer-leftstyle">
-        <image class="footer-img" src="../../static/images/plp/b.png" bindtap="onThrow" />
+      <view class="footer-leftstyle" bindtap="onThrow">
+        <image class="footer-img" src="../../static/images/plp/b.png" />
         <text class="font-color-global-base">扔一个</text>
       </view>
-      <view class="footer-playstyle">
-        <image class="footer-img" src="../../static/images/plp/a.png" bindtap="onPick" />
+      <view class="footer-playstyle" bindtap="onPick">
+        <image class="footer-img" src="../../static/images/plp/a.png" />
         <text class="font-color-global-base">捡一个</text>
       </view>
-      <view class="footer-rightstyle">
-        <image class="footer-img" src="../../static/images/plp/c.png" bindtap="onMine" />
+      <view class="footer-rightstyle" bindtap="onMine">
+        <image class="footer-img" src="../../static/images/plp/c.png" />
         <text class="font-color-global-base">我的瓶子</text>
         <ui-badge text="999" class="badge" _pid="{{_pid}}"></ui-badge>
       </view>

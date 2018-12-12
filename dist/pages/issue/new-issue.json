@@ -1,6 +1,5 @@
 {
   "usingComponents": {
-    "ui-mask": "../../packages/touchui-wx-components/ui-mask/dist/index",
     "nav-bar": "../../packages/navBar/nav-bar"
   }
 }

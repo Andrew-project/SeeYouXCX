@@ -141,7 +141,20 @@ exports.default = Page({
     });
   },
   // 我的瓶子
-  onMine: function onMine() {},
+  onMine: function onMine() {
+    wx.switchTab({
+      url: "/pages/chat-list/chat-list",
+      success: function success(res) {
+        // success
+      },
+      fail: function fail() {
+        // fail
+      },
+      complete: function complete() {
+        // complete
+      }
+    });
+  },
   // 点击遮罩层
   onClickMask: function onClickMask(e) {
     this.setData({

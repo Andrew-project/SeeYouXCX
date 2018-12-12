@@ -43,7 +43,7 @@ export default {
 .chat-item-content-super-style {
   display: flex;
   flex-direction: column;
-  width: 50%;
+  width: 65%;
 }
 
 .chat-item-name-style {
@@ -71,7 +71,7 @@ export default {
 }
 .chat-item-time-style {
   color: #999999;
-  font-size: 20rpx;
+  font-size: 28rpx;
   margin-bottom: 20rpx;
   text-align: right;
 }
