@@ -1,0 +1,42 @@
+<nav-bar nav-title="编辑我的信息" is-back="true" _pid="{{_pid}}"></nav-bar>
+<form bindsubmit="formSubmit" report-submit="true">
+  <view class="text-center padding-top-sm padding-bottom-xsm background-color-white margin-bottom-xs" bindtap="chooseImage">
+    <image src="{{avatarUrl || defalutAvatar}}" alt="" class="avatar-img" />
+    <view class="h3 margin-top-xs">修改头像</view>
+  </view>
+  <view class="padding-left-xsm margin-bottom-md background-color-white border-line-bottom border-color-global-base">
+    <view class="clearfloat  padding-right-xsm border-line-bottom border-color-global-base background-color-white h4">
+      <view class="float-left h4 line-height-100">昵称：</view>
+      <view class="float-left text-left ">
+        <input type="text" name="name" value="{{name}}" placeholder-class="placeholder-class" placeholder="" class="text-left input font-color-global-lighter"></input>
+      </view>
+    </view>
+    <view class="clearfloat padding-right-xs background-color-white h4">
+      <view class="float-left h4 line-height-100">性别：</view>
+      <span class="float-right margin-left-xxs font-color-global-lighter icon-xxs line-height-100 ui-icon icon-fanhui" type="fanhui" style="font-size: 16px;"></span>
+      <picker bindchange="bindGenderChange" value="{{genderIndex}}" range="{{genderRange}}" name="genderIndex" class="float-left">
+        <view class="picker text-left line-height-100 font-color-global-lighter">
+          {{genderRange[genderIndex]}}
+        </view>
+      </picker>
+    </view>
+
+    <view class="clearfloat  padding-right-xs border-line-top border-color-global-base background-color-white h4">
+      <view class="float-left h4 line-height-100">年龄：</view>
+      <span class="float-right margin-left-xxs font-color-global-lighter icon-xxs line-height-100 ui-icon icon-fanhui" type="fanhui" style="font-size: 16px;"></span>
+      <picker value="{{ageIndex}}" bindchange="bindAgeChange" name="ageIndex" range="{{ageRange}}" class="float-left">
+        <view class="picker line-height-100 text-left font-color-global-lighter">
+          {{ageRange[ageIndex]}}
+        </view>
+      </picker>
+    </view>
+    <view class="clearfloat  padding-right-xsm border-line-top border-color-global-base  background-color-white h4" style="position: relative;">
+      <view class="float-left h4 line-height-100">个性签名：</view>
+      <view class="float-left text-left">
+        <input type="text" name="remark" value="{{remark}}" bindinput="bindInputDesc" bindblur="bindInputDesc" placeholder-class="placeholder-class" maxlength="16" placeholder="" class="text-left input font-color-global-lighter"></input>
+      </view>
+      <view class="font-color-global-lightest h4 word-count">{{16 - remark.length > -1 ? 16 - remark.length : 0}}</view>
+    </view>
+  </view>
+  <button formType="submit" type="primary" size="default">保存</button>
+</form>

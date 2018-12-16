@@ -44,7 +44,8 @@
     <view class="clearfloat background-color-white">
         <view class="plp iconfont icon-zixun h3" bindtap="routePlp">漂流瓶
         </view>
-        <view class="item clearfloat padding-xsm  padding-bottom-xsm border-line-bottom border-color-global-base" wx:for="[1,2]">
+        <information-item mockImgs="{{mockImgs}}" bindhasPreviewImg="previewImg"></information-item>
+        <!-- <view class="item clearfloat padding-xsm  padding-bottom-xsm border-line-bottom border-color-global-base" wx:for="[1,2]">
             <scroll-view scroll-y>
                 <image src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" class="avatarUrl" lazy-load="true"></image>
                 <view class="item-content">
@@ -74,7 +75,7 @@
                 </view>
             </scroll-view>
         </view>
-        <textarea bindblur="bindTextAreaBlur" value="{{comment}}" bindconfirm="confirmComment" auto-height placeholder="{{textareaPlaceHolder}}" fixed="{{true}}" focus="{{focus}}" style="position:absolute;background:#f5f5f5;top:{{inputTop}}px;width:100%;padding:20rpx;z-index:1000;opacity:{{focus? 1 :0}}" />
+        <textarea bindblur="bindTextAreaBlur" value="{{comment}}" bindconfirm="confirmComment" auto-height placeholder="{{textareaPlaceHolder}}" fixed="{{true}}" focus="{{focus}}" style="position:absolute;background:#f5f5f5;top:{{inputTop}}px;width:100%;padding:20rpx;z-index:1000;opacity:{{focus? 1 :0}}" /> -->
     </view>
 
     <!-- <view class="roller_content"> -->
@@ -109,7 +110,8 @@ var qqmapsdk;
 export default {
   config: {
     usingComponents: {
-      "nav-bar": "../../packages/navBar/nav-bar"
+      "nav-bar": "../../packages/navBar/nav-bar",
+      "information-item": "../../packages/information-item/information-item"
     }
   },
   data: {
@@ -219,34 +221,42 @@ export default {
     //     console.log(res);
     //   }
     // });
+    console.log('是否预览了图片：',this.data.isPreview)
+    if (!this.data.isPreview) {
     this.getUserLocation();
+    }
   },
-  focusContent: function(e) {
+  previewImg(e) {
     this.setData({
-      focus: true,
-      comment: "",
-      textareaPlaceHolder: "请赞美你的ta吧~~~~",
-      inputTop: e.detail.y + 20
-    });
+      isPreview: e.detail.isPreview
+    })
   },
-  bindTextAreaBlur: function(e) {
-    this.setData({
-      focus: false,
-      comment: "",
-      textareaPlaceHolder: "请赞美你的ta吧~~~~",
-      inputTop: 0
-    });
-  },
-  // 回复其他人信息
-  commentToOther: function(e) {
-    this.focusContent(e);
-    this.setData({
-      textareaPlaceHolder: "@xxx:"
-    });
-  },
-  confirmComment: function(e) {
-    console.info(e);
-  },
+  // focusContent: function(e) {
+  //   this.setData({
+  //     focus: true,
+  //     comment: "",
+  //     textareaPlaceHolder: "请赞美你的ta吧~~~~",
+  //     inputTop: e.detail.y + 20
+  //   });
+  // },
+  // bindTextAreaBlur: function(e) {
+  //   this.setData({
+  //     focus: false,
+  //     comment: "",
+  //     textareaPlaceHolder: "请赞美你的ta吧~~~~",
+  //     inputTop: 0
+  //   });
+  // },
+  // // 回复其他人信息
+  // commentToOther: function(e) {
+  //   this.focusContent(e);
+  //   this.setData({
+  //     textareaPlaceHolder: "@xxx:"
+  //   });
+  // },
+  // confirmComment: function(e) {
+  //   console.info(e);
+  // },
   getUserLocation: function() {
     let vm = this;
     wx.getSetting({
@@ -431,61 +441,61 @@ export default {
   z-index: 1000;
 }
 
-.item {
-  .avatarUrl {
-    width: 120rpx;
-    height: 120rpx;
-    border-radius: 50%;
-    float: left;
-  }
+// .item {
+//   .avatarUrl {
+//     width: 120rpx;
+//     height: 120rpx;
+//     border-radius: 50%;
+//     float: left;
+//   }
 
-  .item-content {
-    width: 540rpx;
-    float: left;
-    margin-left: 30rpx;
-    float: left;
-    margin-top: 15rpx;
+//   .item-content {
+//     width: 540rpx;
+//     float: left;
+//     margin-left: 30rpx;
+//     float: left;
+//     margin-top: 15rpx;
 
-    .desc {
-      line-height: 1.5;
-    }
+//     .desc {
+//       line-height: 1.5;
+//     }
 
-    .single-img {
-      width: 350rpx;
-      height: 430rpx;
-    }
+//     .single-img {
+//       width: 350rpx;
+//       height: 430rpx;
+//     }
 
-    .c-img {
-      width: 255rpx;
-      height: 255rpx;
-    }
+//     .c-img {
+//       width: 255rpx;
+//       height: 255rpx;
+//     }
 
-    .c-img:nth-of-type(2n) {
-      margin-left: 20rpx;
-    }
+//     .c-img:nth-of-type(2n) {
+//       margin-left: 20rpx;
+//     }
 
-    .dialog-box {
-      width: 540rpx;
-      min-height: 60rpx;
-      border: 1px solid #f5f5f5;
-      position: relative;
-      margin-top: 20rpx;
-      background-color: #f5f5f5;
-    }
+//     .dialog-box {
+//       width: 540rpx;
+//       min-height: 60rpx;
+//       border: 1px solid #f5f5f5;
+//       position: relative;
+//       margin-top: 20rpx;
+//       background-color: #f5f5f5;
+//     }
 
-    .dialog-box-1 .triangle {
-      width: 0;
-      height: 0;
-      border-top: 20rpx solid transparent;
-      border-right: 20rpx solid transparent;
-      border-bottom: 20rpx solid #f5f5f5;
-      border-left: 20rpx solid transparent;
-      position: absolute;
-      top: -40rpx;
-      left: 20rpx;
-    }
-  }
-}
+//     .dialog-box-1 .triangle {
+//       width: 0;
+//       height: 0;
+//       border-top: 20rpx solid transparent;
+//       border-right: 20rpx solid transparent;
+//       border-bottom: 20rpx solid #f5f5f5;
+//       border-left: 20rpx solid transparent;
+//       position: absolute;
+//       top: -40rpx;
+//       left: 20rpx;
+//     }
+//   }
+// }
 
 .mask {
   transition: all 0.25s ease-in;

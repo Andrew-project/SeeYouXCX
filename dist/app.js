@@ -24,6 +24,7 @@ exports.default = App({
   },
   token: "",
   env: "dev",
+  hasSocket: false,
   onLaunch: function onLaunch(options) {
     _system2.default.attachInfo();
     this.appIMDelegate = new _appImDelegate2.default(this);
@@ -32,11 +33,18 @@ exports.default = App({
   getIMHandler: function getIMHandler() {
     return this.appIMDelegate.getIMHandlerDelegate();
   },
-  onHide: function onHide() {
+  onUnload: function onUnload() {
     this.appIMDelegate.onHide();
   },
   onShow: function onShow(options) {
-    this.appIMDelegate.onShow(options);
+    var _this = this;
+
+    console.log("是否开启websocket连接：", this.hasSocket);
+    if (!this.hasSocket) {
+      this.appIMDelegate.onShow(options, function () {
+        _this.hasSocket = true;
+      });
+    }
   },
 
   // http 拦截

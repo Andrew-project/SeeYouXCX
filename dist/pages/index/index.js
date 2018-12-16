@@ -105,34 +105,43 @@ exports.default = Page({
     //     console.log(res);
     //   }
     // });
-    this.getUserLocation();
+    console.log('是否预览了图片：', this.data.isPreview);
+    if (!this.data.isPreview) {
+      this.getUserLocation();
+    }
   },
-  focusContent: function focusContent(e) {
+  previewImg: function previewImg(e) {
     this.setData({
-      focus: true,
-      comment: "",
-      textareaPlaceHolder: "请赞美你的ta吧~~~~",
-      inputTop: e.detail.y + 20
+      isPreview: e.detail.isPreview
     });
   },
-  bindTextAreaBlur: function bindTextAreaBlur(e) {
-    this.setData({
-      focus: false,
-      comment: "",
-      textareaPlaceHolder: "请赞美你的ta吧~~~~",
-      inputTop: 0
-    });
-  },
-  // 回复其他人信息
-  commentToOther: function commentToOther(e) {
-    this.focusContent(e);
-    this.setData({
-      textareaPlaceHolder: "@xxx:"
-    });
-  },
-  confirmComment: function confirmComment(e) {
-    console.info(e);
-  },
+
+  // focusContent: function(e) {
+  //   this.setData({
+  //     focus: true,
+  //     comment: "",
+  //     textareaPlaceHolder: "请赞美你的ta吧~~~~",
+  //     inputTop: e.detail.y + 20
+  //   });
+  // },
+  // bindTextAreaBlur: function(e) {
+  //   this.setData({
+  //     focus: false,
+  //     comment: "",
+  //     textareaPlaceHolder: "请赞美你的ta吧~~~~",
+  //     inputTop: 0
+  //   });
+  // },
+  // // 回复其他人信息
+  // commentToOther: function(e) {
+  //   this.focusContent(e);
+  //   this.setData({
+  //     textareaPlaceHolder: "@xxx:"
+  //   });
+  // },
+  // confirmComment: function(e) {
+  //   console.info(e);
+  // },
   getUserLocation: function getUserLocation() {
     var vm = this;
     wx.getSetting({

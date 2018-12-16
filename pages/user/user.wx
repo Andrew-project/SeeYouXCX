@@ -1,5 +1,6 @@
 <template>
-<view>
+<nav-bar nav-title="我的"></nav-bar>
+<!-- <view>
   <ui-nav-bar slot="nav-bar" class="nav_bar" custom-style="{{ {backgroundColor:'#fff'} }}">
       <ui-row height="46">
         <ui-col vertical-align="middle">
@@ -8,7 +9,7 @@
       </ui-row>
     </ui-nav-bar>
     <view style="height:{{NAV_HEIGHT}}"></view>
-</view>
+</view> -->
   <view class="home">
     <view class="header">
       <image class="header-imgbg" src="../../static/images/icon_home_bg.png"/>
@@ -26,18 +27,18 @@
       </view>
       <view wx:else>请升级微信版本</view>
       <view class="home-data">
-        <view class="data-list data-befor" bindtap="toCollect">
+        <view class="data-list data-befor" bindtap="toRecords">
           <text>999</text>
-          <text>我的收藏</text>
-        </view>
-        <view class="data-list data-befor">
-          <text>999</text>
-          <text>我的下载</text>
+          <text>我的心愿</text>
         </view>
         <view class="data-list">
           <text>999</text>
-          <text>我的上传</text>
+          <text>收到的赞</text>
         </view>
+        <!-- <view class="data-list">
+          <text>999</text>
+          <text>我的上传</text>
+        </view> -->
       </view>
     </view>
     <view class="home-list">
@@ -94,24 +95,26 @@
 <script>
 export default {
   config: {
-    navigationBarTitleText: "我的",
-    disableScroll: false
+    disableScroll: false,
+    usingComponents: {
+      "nav-bar": "../../packages/navBar/nav-bar"
+    }
   },
   data: {
     canIUse: wx.canIUse("button.open-type.getUserInfo"),
     signature: "",
     NAV_HEIGHT: wx.STATUS_BAR_HEIGHT + wx.DEFAULT_HEADER_HEIGHT + "px"
   },
-  // 跳转到我的收藏
-  toCollect() {
+  // 跳转到我的记录
+  toRecords() {
     wx.navigateTo({
-      url: "/pages/collect/collect"
+      url: "/pages/user/myRecord"
     });
   },
   // 跳转到设置
   toDetails() {
     wx.navigateTo({
-      url: "/pages/setting/setting"
+      url: "/pages/user/setting"
     });
   },
   // 跳转我的消息
@@ -123,13 +126,13 @@ export default {
   // 跳转意见反馈
   toFeedback() {
     wx.navigateTo({
-      url: "/pages/feedback/feedback"
+      url: "/pages/user/feedback"
     });
   },
   // 跳转关于我们
   toAaboutUs() {
     wx.navigateTo({
-      url: "/pages/aboutUs/aboutUs"
+      url: "/pages/user/aboutUs"
     });
   },
   // 页面执行后从缓存中获取设置的签名，有接口后可不需要这样操作
@@ -217,7 +220,7 @@ page {
       flex-wrap: wrap;
       align-items: center;
       position: relative;
-      width: 33.3%;
+      width: 66.6%;
       text {
         display: inline-block;
         width: 100%;

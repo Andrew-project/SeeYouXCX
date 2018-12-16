@@ -14,7 +14,7 @@
                 <view class="add-issue"></view>
             </view>
         </view>
-        <button formType="submit" type="success" class="font-color-white">发布</button>
+        <button formType="submit" type="primary" class="font-color-white">发布</button>
     </view>
 </form>
 </template>
@@ -168,7 +168,7 @@ page {
   }
 
   button {
-    width: 600rpx;
+    width: 650rpx;
     margin: 200rpx auto 0 auto;
   }
 }

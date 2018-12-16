@@ -11,12 +11,16 @@ export default {
   config: {
     usingComponents: {},
     pages: [
-      "pages/issue/new-issue",
+      "pages/user/user",
+      "pages/user/myRecord",
       "pages/index/index",
+      "pages/user/feedback",
+      "pages/user/setting",
+      "pages/issue/new-issue",
       "pages/chat-list/chat-list",
       "pages/chat/chat",
       "pages/plp/plp",
-      "pages/user/user"
+      "pages/user/aboutUs"
     ],
     window: {
       navigationStyle: "custom",
@@ -70,6 +74,7 @@ export default {
   },
   token: "",
   env: "dev",
+  hasSocket: false,
   onLaunch(options) {
     system.attachInfo();
     this.appIMDelegate = new AppIMDelegate(this);
@@ -78,11 +83,16 @@ export default {
   getIMHandler() {
     return this.appIMDelegate.getIMHandlerDelegate();
   },
-  onHide() {
+  onUnload() {
     this.appIMDelegate.onHide();
   },
   onShow(options) {
-    this.appIMDelegate.onShow(options);
+    console.log("是否开启websocket连接：", this.hasSocket);
+    if (!this.hasSocket) {
+      this.appIMDelegate.onShow(options, () => {
+        this.hasSocket = true;
+      });
+    }
   },
   // http 拦截
   cRequest: function(options) {

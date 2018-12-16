@@ -1,0 +1,51 @@
+/* 1像素解决方案 */
+/*
+ * 清除1px
+ */
+/*
+ * 清除浮动
+ */
+/*
+ * mobile
+ */
+/*
+ * 1px
+ */
+/*
+ * text
+ */
+/* 垂直居中 */
+/* 水平居中 */
+/* 水平垂直居中 */
+/* 超出部分出省略号 */
+/* 多行文本超出部分省略号 */
+.avatar-img {
+  width: 100rpx;
+  height: 100rpx;
+  margin-left: 326rpx;
+  border-radius: 50%;
+}
+.input {
+  height: 100rpx;
+  min-width: 550rpx;
+  max-width: 600rpx;
+}
+.line-height-100 {
+  line-height: 100rpx;
+}
+.picker-height {
+  height: 100rpx;
+}
+picker {
+  width: 510rpx;
+}
+button {
+  margin-left: 50rpx;
+  width: 650rpx;
+  margin-top: 80rpx;
+}
+.word-count {
+  position: absolute;
+  right: 6rpx;
+  top: 67rpx;
+}

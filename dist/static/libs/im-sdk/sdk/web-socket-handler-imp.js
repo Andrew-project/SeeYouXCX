@@ -46,27 +46,31 @@ var WebSocketHandlerImp = function (_IIMHandler) {
     _createClass(WebSocketHandlerImp, [{
         key: 'createConnection',
         value: function createConnection(_ref) {
-            var options = _ref.options;
+            var options = _ref.options,
+                _success = _ref.success;
 
             !this._isLogin && wx.connectSocket({
                 url: options.url,
                 header: {
                     'content-type': 'application/json'
                 },
-                method: 'GET'
+                method: 'GET',
+                success: function success() {
+                    _success && _success(true);
+                }
             });
         }
     }, {
         key: '_sendMsgImp',
         value: function _sendMsgImp(_ref2) {
             var content = _ref2.content,
-                _success = _ref2.success,
+                _success2 = _ref2.success,
                 _fail = _ref2.fail;
 
             wx.sendSocketMessage({
                 data: JSON.stringify(content),
                 success: function success() {
-                    _success && _success(content);
+                    _success2 && _success2(content);
                 },
                 fail: function fail(res) {
                     _fail && _fail(res);

@@ -1,0 +1,170 @@
+<template>
+<nav-bar nav-title="编辑我的信息" is-back="true"></nav-bar>
+<form bindsubmit="formSubmit" report-submit="true">
+    <view class="text-center padding-top-sm padding-bottom-xsm background-color-white margin-bottom-xs" bindtap="chooseImage">
+        <image src="{{avatarUrl || defalutAvatar}}" alt="" class="avatar-img"></image>
+        <view class='h3 margin-top-xs'>修改头像</view>
+    </view>
+    <view class="padding-left-xsm margin-bottom-md background-color-white border-line-bottom border-color-global-base">
+        <view class="clearfloat  padding-right-xsm border-line-bottom border-color-global-base background-color-white h4">
+            <view class="float-left h4 line-height-100">昵称：</view>
+            <view class="float-left text-left ">
+                <input type="text" name="name" value="{{name}}" placeholder-class="placeholder-class" placeholder="" class="text-left input font-color-global-lighter" />
+                </view>
+            </view>
+            <view class="clearfloat padding-right-xs background-color-white h4">
+                <view class="float-left h4 line-height-100">性别：</view>
+                <ui-icon class="float-right margin-left-xxs font-color-global-lighter icon-xxs line-height-100" type="fanhui"></ui-icon>
+                <picker bindchange="bindGenderChange" value="{{genderIndex}}" range="{{genderRange}}" name="genderIndex" class='float-left'>
+                    <view class="picker text-left line-height-100 font-color-global-lighter">
+                        {{genderRange[genderIndex]}}
+                    </view>
+                </picker>
+            </view>
+
+            <view class="clearfloat  padding-right-xs border-line-top border-color-global-base background-color-white h4">
+                <view class="float-left h4 line-height-100">年龄：</view>
+                <ui-icon class="float-right margin-left-xxs font-color-global-lighter icon-xxs line-height-100" type="fanhui"></ui-icon>
+                <picker value="{{ageIndex}}" bindchange="bindAgeChange" name="ageIndex" range="{{ageRange}}" class='float-left'>
+                    <view class="picker line-height-100 text-left font-color-global-lighter">
+                        {{ageRange[ageIndex]}}
+                    </view>
+                </picker>
+            </view>
+            <view class="clearfloat  padding-right-xsm border-line-top border-color-global-base  background-color-white h4" style="position: relative;">
+                <view class="float-left h4 line-height-100">个性签名：</view>
+                <view class="float-left text-left">
+                    <input type="text" name="remark" value="{{remark}}" bindinput="bindInputDesc" bindblur="bindInputDesc" placeholder-class="placeholder-class" maxlength="16" placeholder="" class="text-left input font-color-global-lighter" />
+                </view>
+                <view class="font-color-global-lightest h4 word-count">{{16 - remark.length > -1 ? 16 - remark.length : 0}}</view>
+                </view>
+            </view>
+            <button formType="submit" type="primary" size="default">保存</button>
+</form>
+</template>
+
+<script>
+export default {
+  config: {
+    disableScroll: false,
+    usingComponents: {
+      "nav-bar": "../../packages/navBar/nav-bar"
+    }
+  },
+  data: {
+    genderRange: ["男", "女"],
+    genderIndex: 1,
+    gender: "女",
+    ageRange: [],
+    ageIndex: 10,
+    age: 23,
+    defalutAvatar: "",
+    remark: ""
+  },
+  onShow: function(e) {
+    let ages = ["14岁以下"];
+    for (let i = 14; i < 51; i++) {
+      ages.push(`${i}`);
+    }
+    this.setData({
+      ageRange: [...ages, "50岁以上"]
+    });
+  },
+  chooseImage: function() {
+    wx.chooseImage({
+      count: 1, // 默认9
+      sizeType: ["compressed"],
+      success: res => {
+        let tempFilePath = res.tempFilePaths[0];
+        this.setData({
+          avatarUrl: tempFilePath
+        });
+        // wx.uploadFile({
+        //   url:
+        //     baseURL + `api/ultimatelaw/v1/upload/upload-file?folderName=image`,
+        //   filePath: tempFilePath,
+        //   name: "file",
+        //   header: {
+        //     Accept: "application/json"
+        //   },
+        //   success: function(res) {
+        //     var data = JSON.parse(res.data);
+        //     if (data.result.success) {
+        //       that.setData({
+        //         avatarUrl: data.data.url
+        //       });
+        //     }
+        //   },
+        //   fail: function(err) {
+        //     toast.show("warn", err.errMsg);
+        //   }
+        // });
+      },
+      complete: function() {}
+    });
+  },
+  bindGenderChange: function(e) {
+    this.setData({
+      gender: this.data.genderRange[parseInt(e.detail.value)],
+      genderIndex: parseInt(e.detail.value)
+    });
+  },
+  bindAgeChange: function(e) {
+    this.setData({
+      age: this.data.ageRange[parseInt(e.detail.value)],
+      ageIndex: parseInt(e.detail.value)
+    });
+  },
+  bindInputDesc: function(e) {
+    this.setData({
+      remark: e.detail.value
+    });
+  },
+  formSubmit: function(e) {
+    console.log(e);
+    console.log(this.data);
+    wx.navigateBack({
+      delta: 1 // 回退前 delta(默认为1) 页面
+    });
+  }
+};
+</script>
+
+<style lang="less" scoped>
+.avatar-img {
+  width: 100rpx;
+  height: 100rpx;
+  margin-left: 326rpx;
+  border-radius: 50%;
+}
+
+.input {
+  height: 100rpx;
+  min-width: 550rpx;
+  max-width: 600rpx;
+}
+
+.line-height-100 {
+  line-height: 100rpx;
+}
+
+.picker-height {
+  height: 100rpx;
+}
+
+picker {
+  width: 510rpx;
+}
+
+button {
+  margin-left: 50rpx;
+  width: 650rpx;
+  margin-top: 80rpx;
+}
+
+.word-count {
+  position: absolute;
+  right: 6rpx;
+  top: 67rpx;
+}
+</style>

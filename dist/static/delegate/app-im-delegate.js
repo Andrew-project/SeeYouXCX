@@ -25,11 +25,12 @@ var AppIMDelegate = function () {
         }
     }, {
         key: "onShow",
-        value: function onShow(options) {
+        value: function onShow(options, success) {
             this.iIMHandler.createConnection({
                 options: {
                     url: 'ws://192.168.1.113:9527'
-                }
+                },
+                success: success
             });
         }
     }, {

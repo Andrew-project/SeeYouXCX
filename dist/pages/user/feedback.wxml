@@ -1,0 +1,7 @@
+<nav-bar nav-title="意见反馈" is-back="true" _pid="{{_pid}}"></nav-bar>
+<view class="padding-xsm background-color-white">
+  <textarea name="suggestion" placeholder="请提出您宝贵的意见~" bindinput="bindInputSuggestion" bindblur="bindInputSuggestion" placeholder-class="placeholder-class" value="{{suggestion}}"></textarea>
+</view>
+<form report-submit bindsubmit="save">
+  <button formType="submit" type="primary">确定</button>
+</form>

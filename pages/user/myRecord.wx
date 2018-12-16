@@ -1,0 +1,24 @@
+<template>
+<nav-bar nav-title="发布记录" is-back="true"></nav-bar>
+<view class="background-color-white">
+    <information-item mockImgs="{{mockImgs}}" bindhasPreviewImg="previewImg"></information-item>
+</view>
+</template>
+
+<script>
+export default {
+  config: {
+    usingComponents: {
+      "nav-bar": "../../packages/navBar/nav-bar",
+      "information-item": "../../packages/information-item/information-item"
+    }
+  },
+  data: {
+    mockImgs: []
+  },
+  previewImg: function(e) {}
+};
+</script>
+
+<style lang="less" scoped>
+</style>

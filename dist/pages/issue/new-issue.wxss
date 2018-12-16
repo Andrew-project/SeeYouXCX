@@ -91,6 +91,6 @@ page {
   border-left: 4rpx solid #e8e8e8;
 }
 .new-issue button {
-  width: 600rpx;
+  width: 650rpx;
   margin: 200rpx auto 0 auto;
 }

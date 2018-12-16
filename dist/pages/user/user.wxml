@@ -1,15 +1,14 @@
-<view>
-  <ui-nav-bar slot="nav-bar" class="nav_bar" custom-style="{{ {backgroundColor:'#fff'} }}" _pid="{{_pid}}">
-    <view class="ui-row" style="height:46px;">
-      <view class="ui-col valign-middle" style="">
-        <view class="ui-col-content valign-middle">
+<nav-bar nav-title="我的" _pid="{{_pid}}"></nav-bar>
+<!-- <view>
+  <ui-nav-bar slot="nav-bar" class="nav_bar" custom-style="{{ {backgroundColor:'#fff'} }}">
+      <ui-row height="46">
+        <ui-col vertical-align="middle">
           <view class="text-center">我的</view>
-        </view>
-      </view>
-    </view>
-  </ui-nav-bar>
-  <view style="height:{{NAV_HEIGHT}}"></view>
-</view>
+        </ui-col>
+      </ui-row>
+    </ui-nav-bar>
+    <view style="height:{{NAV_HEIGHT}}"></view>
+</view> -->
 <view class="home">
   <view class="header">
     <image class="header-imgbg" src="../../static/images/icon_home_bg.png" />
@@ -27,18 +26,18 @@
     </view>
     <view wx:else="">请升级微信版本</view>
     <view class="home-data">
-      <view class="data-list data-befor" bindtap="toCollect">
+      <view class="data-list data-befor" bindtap="toRecords">
         <text>999</text>
-        <text>我的收藏</text>
-      </view>
-      <view class="data-list data-befor">
-        <text>999</text>
-        <text>我的下载</text>
+        <text>我的心愿</text>
       </view>
       <view class="data-list">
         <text>999</text>
-        <text>我的上传</text>
+        <text>收到的赞</text>
       </view>
+      <!-- <view class="data-list">
+          <text>999</text>
+          <text>我的上传</text>
+        </view> -->
     </view>
   </view>
   <view class="home-list">

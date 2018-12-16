@@ -1,0 +1,4 @@
+<nav-bar nav-title="发布记录" is-back="true" _pid="{{_pid}}"></nav-bar>
+<view class="background-color-white">
+  <information-item mockImgs="{{mockImgs}}" bindhasPreviewImg="previewImg" _pid="{{_pid}}"></information-item>
+</view>

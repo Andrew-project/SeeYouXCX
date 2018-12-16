@@ -1,0 +1,32 @@
+<view class="item clearfloat padding-xsm  padding-bottom-xsm border-line-bottom border-color-global-base" wx:key="*this" wx:for="[1,2]">
+  <scroll-view scroll-y>
+    <image src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" class="avatarUrl" lazy-load="true" />
+    <view class="item-content">
+      <view class="h2">麻辣烫不烫<text class="float-right h3">昨天</text></view>
+      <view class="h3 padding-right-xsm margin-height-xs desc">如果明天不下雨，我们就去动物园</view>
+      <view>
+        <block wx:if="{{mockImgs.length == 1}}">
+          <image src="{{mockImgs[0]}}" mode="aspectFit" lazy-load="true" class="single-img margin-bottom-xsm" bindtap="previewImg" data-url="{{mockImgs[0]}}" />
+        </block>
+        <block wx:else="">
+          <view wx:for="{{mockImgs}}" wx:for-item="img" wx:key="*this" class="c-img float-left margin-bottom-xsm">
+            <image src="{{img}}" mode="aspectFit" lazy-load="true" bindtap="previewImg" data-url="{{img}}" />
+          </view>
+        </block>
+      </view>
+      <view><text class="iconfont icon-shouye h5"></text><text class="h5 font-color-global-lighter margin-left-xxs">北京.大屯</text>
+        <view class="float-right"><text class="iconfont icon-zixun margin-right-xsm" bindtap="focusContent"></text><text class="iconfont icon-zixun" bindtap="focusContent"></text></view>
+      </view>
+      <view class="dialog-box dialog-box-1">
+        <text class="triangle"></text>
+        <view class="padding-xxs">
+          <block wx:for="[1,2,3]" wx:key="*this">
+            <view class="font-color-blue" bindtap="commentToOther">昵称：<text class="font-color-global-lighter">x放大论法的精神范德萨练腹肌看电视了分机多少浪费xxx</text></view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>
+<textarea bindblur="bindTextAreaBlur" value="{{comment}}" bindconfirm="confirmComment" auto-height placeholder="{{textareaPlaceHolder}}" fixed="{{true}}" focus="{{focus}}" style="position:absolute;background:#f5f5f5;top:{{inputTop}}px;width:100%;padding:20rpx;z-index:1000;opacity:{{focus? 1 :0}}">
+</textarea>

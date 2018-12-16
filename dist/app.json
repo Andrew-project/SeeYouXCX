@@ -1,11 +1,15 @@
 {
   "pages": [
-    "pages/issue/new-issue",
+    "pages/user/user",
+    "pages/user/myRecord",
     "pages/index/index",
+    "pages/user/feedback",
+    "pages/user/setting",
+    "pages/issue/new-issue",
     "pages/chat-list/chat-list",
     "pages/chat/chat",
     "pages/plp/plp",
-    "pages/user/user"
+    "pages/user/aboutUs"
   ],
   "window": {
     "navigationStyle": "custom",

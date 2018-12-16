@@ -9,17 +9,17 @@ exports.default = Page({
     signature: "",
     NAV_HEIGHT: wx.STATUS_BAR_HEIGHT + wx.DEFAULT_HEADER_HEIGHT + "px"
   },
-  // 跳转到我的收藏
-  toCollect: function toCollect() {
+  // 跳转到我的记录
+  toRecords: function toRecords() {
     wx.navigateTo({
-      url: "/pages/collect/collect"
+      url: "/pages/user/myRecord"
     });
   },
 
   // 跳转到设置
   toDetails: function toDetails() {
     wx.navigateTo({
-      url: "/pages/setting/setting"
+      url: "/pages/user/setting"
     });
   },
 
@@ -33,14 +33,14 @@ exports.default = Page({
   // 跳转意见反馈
   toFeedback: function toFeedback() {
     wx.navigateTo({
-      url: "/pages/feedback/feedback"
+      url: "/pages/user/feedback"
     });
   },
 
   // 跳转关于我们
   toAaboutUs: function toAaboutUs() {
     wx.navigateTo({
-      url: "/pages/aboutUs/aboutUs"
+      url: "/pages/user/aboutUs"
     });
   },
 

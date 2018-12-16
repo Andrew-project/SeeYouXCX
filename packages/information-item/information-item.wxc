@@ -1,0 +1,154 @@
+<template name="information-item">
+	<view class="item clearfloat padding-xsm  padding-bottom-xsm border-line-bottom border-color-global-base" wx:key="*this" wx:for="[1,2]">
+            <scroll-view scroll-y>
+                <image src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" class="avatarUrl" lazy-load="true"></image>
+                <view class="item-content">
+                    <view class="h2">麻辣烫不烫<text class="float-right h3">昨天</text></view>
+                    <view class="h3 padding-right-xsm margin-height-xs desc">如果明天不下雨，我们就去动物园</view>
+                    <view>
+                        <block wx:if="{{mockImgs.length == 1}}">
+                            <image src="{{mockImgs[0]}}" mode="aspectFit" lazy-load="true" class="single-img margin-bottom-xsm" bindtap="previewImg" data-url="{{mockImgs[0]}}"></image>
+                        </block>
+                        <block wx:else>
+                            <view wx:for="{{mockImgs}}" wx:for-item="img" wx:key="*this" class="c-img float-left margin-bottom-xsm">
+                                <image src="{{img}}" mode="aspectFit" lazy-load="true" bindtap="previewImg" data-url="{{img}}"></image>
+                            </view>
+                        </block>
+                    </view>
+                    <view><text class="iconfont icon-shouye h5"></text><text class="h5 font-color-global-lighter margin-left-xxs">北京.大屯</text>
+                        <view class="float-right"><text class="iconfont icon-zixun margin-right-xsm" bindtap="focusContent"></text><text class="iconfont icon-zixun" bindtap="focusContent"></text></view>
+                    </view>
+                    <view class="dialog-box dialog-box-1">
+                        <text class="triangle"></text>
+                        <view class="padding-xxs">
+                            <block wx:for="[1,2,3]" wx:key="*this">
+                                <view class="font-color-blue" bindtap="commentToOther">昵称：<text class="font-color-global-lighter">x放大论法的精神范德萨练腹肌看电视了分机多少浪费xxx</text></view>
+                            </block>
+                        </view>
+                    </view>
+                </view>
+            </scroll-view>
+        </view>
+        <textarea bindblur="bindTextAreaBlur" value="{{comment}}" bindconfirm="confirmComment" auto-height placeholder="{{textareaPlaceHolder}}" fixed="{{true}}" focus="{{focus}}" style="position:absolute;background:#f5f5f5;top:{{inputTop}}px;width:100%;padding:20rpx;z-index:1000;opacity:{{focus? 1 :0}}" />
+</template>
+<script>
+export default {
+	properties: {
+		 mockImgs: {
+			 type: Array
+		 },
+    focus: {
+		type: Boolean,
+		value: false
+	},
+    inputTop: {
+		type: Number,
+		value: 0
+	},
+    comment: {
+		type: String,
+		value: ''
+	},
+    textareaPlaceHolder: {
+		type: String	
+		}
+	},
+	methods: {
+		previewImg: function (e) {
+			console.log(e)
+			const that = this;
+			wx.previewImage({
+				current: e.currentTarget.dataset.url, // 当前显示图片的http链接
+				urls: [e.currentTarget.dataset.url], // 需要预览的图片http链接列表
+				success: function(e) {
+					that.triggerEvent("hasPreviewImg", {isPreview: true});
+				}
+    		});
+		},
+		focusContent: function(e) {
+			this.setData({
+			focus: true,
+			comment: "",
+			textareaPlaceHolder: "请赞美你的ta吧~~~~",
+			inputTop: e.detail.y + 20
+			});
+		},
+		bindTextAreaBlur: function(e) {
+			this.setData({
+			focus: false,
+			comment: "",
+			textareaPlaceHolder: "请赞美你的ta吧~~~~",
+			inputTop: 0
+			});
+		},
+		// 回复其他人信息
+		commentToOther: function(e) {
+			this.focusContent(e);
+			this.setData({
+			textareaPlaceHolder: "@xxx:"
+			});
+		},
+		confirmComment: function(e) {
+			console.info(e);
+		}
+	}
+};
+</script>
+<style lang="less" scoped>
+@import "../../static/styles/other.less";
+.item {
+  .avatarUrl {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 50%;
+    float: left;
+  }
+
+  .item-content {
+    width: 540rpx;
+    float: left;
+    margin-left: 30rpx;
+    float: left;
+    margin-top: 15rpx;
+
+    .desc {
+      line-height: 1.5;
+    }
+
+    .single-img {
+      width: 350rpx;
+      height: 430rpx;
+    }
+
+    .c-img {
+      width: 255rpx;
+      height: 255rpx;
+    }
+
+    .c-img:nth-of-type(2n) {
+      margin-left: 20rpx;
+    }
+
+    .dialog-box {
+      width: 540rpx;
+      min-height: 60rpx;
+      border: 1px solid #f5f5f5;
+      position: relative;
+      margin-top: 20rpx;
+      background-color: #f5f5f5;
+    }
+
+    .dialog-box-1 .triangle {
+      width: 0;
+      height: 0;
+      border-top: 20rpx solid transparent;
+      border-right: 20rpx solid transparent;
+      border-bottom: 20rpx solid #f5f5f5;
+      border-left: 20rpx solid transparent;
+      position: absolute;
+      top: -40rpx;
+      left: 20rpx;
+    }
+  }
+}
+</style>

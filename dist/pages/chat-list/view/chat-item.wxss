@@ -33,7 +33,7 @@
 }
 .chat-item-time-style {
   color: #999999;
-  font-size: 30rpx;
+  font-size: 28rpx;
   margin-bottom: 20rpx;
   text-align: right;
 }
