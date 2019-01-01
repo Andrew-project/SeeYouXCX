@@ -2,7 +2,7 @@
 <nav-bar nav-title="~发布你的心情~" is-back="true"></nav-bar>
 <form bindsubmit="onSubmit" report-submit="true">
     <view class="background-color-white padding-xsm new-issue">
-        <textarea placeholder="这一刻的想法" name="commit" value="{{commit}}" bindblur="inputTextarea" bindinput="inputTextarea"></textarea>
+        <textarea placeholder="这一刻的想法" name="commit" value="{{text}}" bindblur="inputTextarea" bindinput="inputTextarea"></textarea>
         <view>
             <block wx:for="{{pictures}}" wx:for-index="idx">
                 <view class="issue-image {{(idx+1) % 3 == 0 ? '' : 'margin-right-xs'}} margin-bottom-xs">
@@ -20,6 +20,8 @@
 </template>
 
 <script>
+const app = getApp();
+import toast from "../../static/utils/toast.js";
 export default {
   config: {
     usingComponents: {
@@ -27,22 +29,22 @@ export default {
     }
   },
   data: {
-    commit: "",
+    text: "",
     pictures: [],
     hasChooseImg: false
   },
   onShow: function() {
-    if (!this.data.hasChooseImg) {
-      this.setData({
-        pictures: [
-          "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-        ]
-      });
-    }
+    // if (!this.data.hasChooseImg) {
+    //   this.setData({
+    //     pictures: [
+    //       "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+    //     ]
+    //   });
+    // }
   },
   inputTextarea: function(e) {
     this.setData({
-      commit: e.detail.value
+      text: e.detail.value
     });
   },
   onPreviewImg: function(e) {
@@ -58,11 +60,39 @@ export default {
     this.setData({
       hasChooseImg: true
     });
+    const that = this;
+    switch (app.env) {
+      case "dev":
+        var baseURL = "http://192.168.0.102:3000/api/v1/open/";
+        break;
+      case "pro":
+        var baseURL = "https://api.yhcloud.youhujia.com/";
+        break;
+      default:
+        var baseURL = "http://192.168.0.102:3000/api/v1/open/";
+        break;
+    }
     wx.chooseImage({
       count: 5 - this.data.pictures.length, // 默认9
       sizeType: ["compressed"],
       success: res => {
-        console.log(res);
+        res.tempFilePaths.forEach(tempFilePath => {
+          wx.uploadFile({
+            url: baseURL + `file/uploadFile?folderName=image`,
+            filePath: tempFilePath,
+            name: "file",
+            header: {
+              Accept: "application/json"
+            },
+            success: function(res) {
+              const imgData = JSON.parse(res.data);
+              const pictures = [...that.data.pictures, imgData.data];
+              that.setData({
+                pictures: pictures
+              });
+            }
+          });
+        });
       }
     });
   },
@@ -75,10 +105,22 @@ export default {
   onSubmit: function(e) {
     console.log(this.data);
     console.log(e);
-    wx.switchTab({
-      url: "/pages/index/index",
-      success: function(res) {
-        // success
+    app.cRequest({
+      url: "record/add",
+      method: "post",
+      data: {
+        text: this.data.text,
+        pictures: this.data.pictures,
+        address: wx.getStorageSync("localAddress")
+      },
+      success: res => {
+        console.log(res);
+        toast.show("success", "发布成功", 2000, () => {
+          wx.switchTab({
+            url: "/pages/index/index",
+            success: function(res) {}
+          });
+        });
       }
     });
   }

@@ -5,7 +5,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = Page({
   data: {
-    mockImgs: []
+    records: []
   },
-  previewImg: function previewImg(e) {}
+  onLoad: function onLoad(e) {
+    try {
+      var records = wx.getStorageSync("recordsByMe");
+      this.setData({
+        records: records || []
+      });
+    } catch (e) {}
+  }
 });

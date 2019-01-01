@@ -1,0 +1,3 @@
+<form bindsubmit="formSubmit" report-submit>
+  <button formType="submit" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="register">授权按钮</button>
+</form>

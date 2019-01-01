@@ -1,18 +1,6 @@
 <nav-bar nav-title="首页" _pid="{{_pid}}"></nav-bar>
-
-<!-- <view class="pull-icon" bindtap="handleShowMask"> -->
 <view class="bottom-divide"></view>
-<!-- </view> -->
 <view>
-  <!-- <ui-nav-bar slot="nav-bar" class="nav_bar" custom-style="{{ {backgroundColor:'#fff'} }}">
-        <ui-row height="46">
-            <ui-col vertical-align="middle">
-                <view class="text-center">首页</view>
-            </ui-col>
-        </ui-row>
-    </ui-nav-bar>
-    <view style="height:{{NAV_HEIGHT}}"></view> -->
-
   <view class="swiper-container">
     <swiper circular autoplay interval="2000" duration="500" bindchange="swiperChange" class="swiper">
       <block wx:for="{{items}}" wx:key="unique">
@@ -21,12 +9,6 @@
         </swiper-item>
       </block>
     </swiper>
-
-    <!-- <view class="dots">
-            <block wx:for="{{items}}" wx:key="unique">
-                <view class="dot{{index == swiperCurrent ? ' active' : ''}}"></view>
-            </block>
-        </view> -->
   </view>
   <ui-mask show="{{showMask}}" custom-style="{{ customStyle1}}" position="right" effect="scale-in" top="{{STATUS_BAR_HEIGHT}}" blur="light" bindtap="maskHide" _pid="{{_pid}}">
     <view class="nav_content">
@@ -47,60 +29,6 @@
   <view class="clearfloat background-color-white">
     <view class="plp iconfont icon-zixun h3" bindtap="routePlp">漂流瓶
     </view>
-    <information-item mockImgs="{{mockImgs}}" bindhasPreviewImg="previewImg" _pid="{{_pid}}"></information-item>
-    <!-- <view class="item clearfloat padding-xsm  padding-bottom-xsm border-line-bottom border-color-global-base" wx:for="[1,2]">
-            <scroll-view scroll-y>
-                <image src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" class="avatarUrl" lazy-load="true"></image>
-                <view class="item-content">
-                    <view class="h2">麻辣烫不烫<text class="float-right h3">昨天</text></view>
-                    <view class="h3 padding-right-xsm margin-height-xs desc">如果明天不下雨，我们就去动物园</view>
-                    <view>
-                        <block wx:if="{{mockImgs.length == 1}}">
-                            <image src="{{mockImgs[0]}}" mode="aspectFit" lazy-load="true" class="single-img margin-bottom-xsm"></image>
-                        </block>
-                        <block wx:else>
-                            <view wx:for="{{mockImgs}}" wx:for-item="img" class="c-img float-left margin-bottom-xsm">
-                                <image src="{{img}}" mode="aspectFit" lazy-load="true"></image>
-                            </view>
-                        </block>
-                    </view>
-                    <view><text class="iconfont icon-shouye h5"></text><text class="h5 font-color-global-lighter margin-left-xxs">北京.大屯</text>
-                        <view class="float-right"><text class="iconfont icon-zixun margin-right-xsm" bindtap="focusContent"></text><text class="iconfont icon-zixun" bindtap="focusContent"></text></view>
-                    </view>
-                    <view class="dialog-box dialog-box-1">
-                        <text class="triangle"></text>
-                        <view class="padding-xxs">
-                            <block wx:for="[1,2,3]">
-                                <view class="font-color-blue" bindtap="commentToOther">昵称：<text class="font-color-global-lighter">x放大论法的精神范德萨练腹肌看电视了分机多少浪费xxx</text></view>
-                            </block>
-                        </view>
-                    </view>
-                </view>
-            </scroll-view>
-        </view>
-        <textarea bindblur="bindTextAreaBlur" value="{{comment}}" bindconfirm="confirmComment" auto-height placeholder="{{textareaPlaceHolder}}" fixed="{{true}}" focus="{{focus}}" style="position:absolute;background:#f5f5f5;top:{{inputTop}}px;width:100%;padding:20rpx;z-index:1000;opacity:{{focus? 1 :0}}" /> -->
+    <information-item records="{{recordsList}}" bindhasPreviewImg="previewImg" _pid="{{_pid}}"></information-item>
   </view>
-
-  <!-- <view class="roller_content"> -->
-  <!-- <ui-row height="30">
-          <ui-col span="2" vertical-align="middle">
-            <image src="{{imgSrc}}" style="width:100%;height:11px;" width="100%" mode="aspectFill"></image>
-          </ui-col>
-          <ui-col span="8.7" space-left="10"  space-right="10">
-            <ui-roller autoplay="2000">
-              <ui-roller-item style="width: 100%;">
-                <ui-row>
-                  <ui-col span="12">
-                    <text block class="roller-text">touchui 让企业移动开发降低80%成本</text>
-                  </ui-col>
-                </ui-row>
-              </ui-roller-item>
-            </ui-roller>
-          </ui-col>
-          <ui-col>
-            <view style="margin-top: -2px">更多</view>
-            </ui-col>
-        </ui-row>
-      </view> -->
-  <!-- </view> -->
 </view>

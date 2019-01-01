@@ -1,26 +1,26 @@
-<view class="item clearfloat padding-xsm  padding-bottom-xsm border-line-bottom border-color-global-base" wx:key="*this" wx:for="[1,2]">
+<view class="item clearfloat padding-xsm  padding-bottom-xsm border-line-bottom border-color-global-base" wx:key="*this" wx:for-index="idx" wx:for="{{records}}">
   <scroll-view scroll-y>
-    <image src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" class="avatarUrl" lazy-load="true" />
+    <image src="{{item.userInfo.avatarUrl}}" class="avatarUrl" lazy-load="true" />
     <view class="item-content">
-      <view class="h2">麻辣烫不烫<text class="float-right h3">昨天</text></view>
-      <view class="h3 padding-right-xsm margin-height-xs desc">如果明天不下雨，我们就去动物园</view>
+      <view class="h2">{{item.userInfo.nickName}}<text class="float-right h5 font-color-global-lighter">{{item.updatedAtStr}}</text></view>
+      <view class="h3 padding-right-xsm margin-height-xs desc">{{item.content.text}}</view>
       <view>
-        <block wx:if="{{mockImgs.length == 1}}">
-          <image src="{{mockImgs[0]}}" mode="aspectFit" lazy-load="true" class="single-img margin-bottom-xsm" bindtap="previewImg" data-url="{{mockImgs[0]}}" />
+        <block wx:if="{{item.content.pictures.length == 1}}">
+          <image src="{{item.content.pictures[0]}}" mode="aspectFit" lazy-load="true" class="single-img margin-bottom-xsm" bindtap="previewImg" data-url="{{item.content.pictures[0]}}" />
         </block>
         <block wx:else="">
-          <view wx:for="{{mockImgs}}" wx:for-item="img" wx:key="*this" class="c-img float-left margin-bottom-xsm">
+          <view wx:for="{{item.content.pictures}}" wx:for-item="img" wx:key="*this" class="c-img float-left margin-bottom-xsm">
             <image src="{{img}}" mode="aspectFit" lazy-load="true" bindtap="previewImg" data-url="{{img}}" />
           </view>
         </block>
       </view>
-      <view><text class="iconfont icon-shouye h5"></text><text class="h5 font-color-global-lighter margin-left-xxs">北京.大屯</text>
-        <view class="float-right"><text class="iconfont icon-zixun margin-right-xsm" bindtap="focusContent"></text><text class="iconfont icon-zixun" bindtap="focusContent"></text></view>
+      <view><text class="iconfont icon-shouye h5"></text><text class="h5 font-color-global-lighter margin-left-xxs">{{item.address.province}}.{{item.address.city}}.{{item.address.district}}</text>
+        <view class="float-right"><text class="iconfont icon-zixun margin-right-xsm" bindtap="addVerb" data-idx="{{idx}}" data-verbs="{{item.verbs}}" data-id="{{item.id}}">{{item.verbs.length}}</text><text class="iconfont icon-zixun" bindtap="focusContent"></text></view>
       </view>
-      <view class="dialog-box dialog-box-1">
+      <view class="dialog-box dialog-box-1" wx:if="{{item.reviews && item.reviews.length > 0}}">
         <text class="triangle"></text>
         <view class="padding-xxs">
-          <block wx:for="[1,2,3]" wx:key="*this">
+          <block wx:for="{{item.reviews}}" wx:key="*this" wx:for-item="reviewItem">
             <view class="font-color-blue" bindtap="commentToOther">昵称：<text class="font-color-global-lighter">x放大论法的精神范德萨练腹肌看电视了分机多少浪费xxx</text></view>
           </block>
         </view>

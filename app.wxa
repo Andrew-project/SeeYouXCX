@@ -11,9 +11,10 @@ export default {
   config: {
     usingComponents: {},
     pages: [
+      "pages/guide/guide",
+      "pages/index/index",
       "pages/user/user",
       "pages/user/myRecord",
-      "pages/index/index",
       "pages/user/feedback",
       "pages/user/setting",
       "pages/issue/new-issue",
@@ -24,10 +25,10 @@ export default {
     ],
     window: {
       navigationStyle: "custom",
-      backgroundTextStyle: "dark",
+      backgroundTextStyle: "white",
       backgroundColor: "#fbf7f6",
       navigationBarBackgroundColor: "#ffffff",
-      navigationBarTitleText: "see you",
+      navigationBarTitleText: "漂流圈子",
       navigationBarTextStyle: "black",
       navigationBarBorderColor: "rgba(231, 231, 231, 0.6)"
     },
@@ -105,7 +106,7 @@ export default {
         var baseURL = "http://yapi.youhujia.com/mock/39/weixin/v1/";
         break;
       case "dev":
-        var baseURL = "http://api-dev.flin.youhujia.com/weixin/v1/";
+        var baseURL = "http://192.168.0.102:3000/api/v1/wx/";
         break;
       case "pro":
         var baseURL = "https://api.yhcloud.youhujia.com/weixin/v1/";
@@ -116,7 +117,7 @@ export default {
     let wxReqOption = {
       method: "GET",
       header: {
-        Authorization: getApp().token,
+        Authorization: wx.getStorageSync("openId"),
         "Content-Type": "application/json",
         Accept: "application/json"
       }
@@ -145,38 +146,11 @@ export default {
           ) {
             toast.show("warn", resp.error);
           } else if (resp.result.code == 401) {
-            toast.show("warn", "登录失败", 2000, () => {
-              try {
-                const organizationId = wx.getStorageSync("orgId") || -1;
-                if (organizationId) {
-                  toast.show("loading", "重新登录中...");
-                  getApp().login(organizationId, token => {
-                    if (token) {
-                      getApp().setTokenFromOptions({
-                        token: token
-                      });
-                      getApp().cRequest(reqOpt);
-                    } else {
-                      wx.redirectTo({
-                        url: "/pages/register/register"
-                      });
-                    }
-                  });
-                }
-              } catch (e) {}
-            });
+            toast.show("warn", "登录失败", 2000, () => {});
           } else if (resp.result.code == 500) {
             toast.show("warn", "服务器错误");
-          } else if (resp.result.code == 1002 || resp.result.code == 11514) {
-            if (!isHideError) {
-              toast.show("warn", resp.result.displaymsg, 2000, () => {
-                wx.navigateTo({
-                  url: "/pages/user/add-family/add-family"
-                });
-              });
-            }
-          } else if (!resp.result.success && resp.result.displaymsg) {
-            toast.show("warn", resp.result.displaymsg);
+          } else if (!resp.result.success && resp.result.displayMsg) {
+            toast.show("warn", resp.result.displayMsg);
           }
           options.fail && options.fail(res);
         }
@@ -184,7 +158,7 @@ export default {
       fail: function(res) {
         console.warn(res);
         toast.hidden();
-        toast.showNormalToast("请求失败");
+        toast.show("warn", "请求失败");
 
         setTimeout(() => {
           toast.hidden();
@@ -197,7 +171,7 @@ export default {
     });
 
     if (!isHideToast) {
-      toast.showNormalToast(
+      toast.showNormalLoading(
         wxReqOption.method == "GET" ? "加载中..." : "请求中..."
       );
     }

@@ -37,7 +37,7 @@
   height: 100rpx;
 }
 picker {
-  width: 510rpx;
+  width: 617rpx;
 }
 button {
   margin-left: 50rpx;
@@ -48,4 +48,8 @@ button {
   position: absolute;
   right: 6rpx;
   top: 67rpx;
+}
+.icon-position {
+  position: absolute;
+  right: 10rpx;
 }

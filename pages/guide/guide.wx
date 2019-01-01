@@ -1,0 +1,65 @@
+<template lang="zh_CN">
+<form bindsubmit="formSubmit" report-submit>
+    <button formType="submit"  open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="register">授权按钮</button>
+</form>
+</template>
+
+<script>
+import * as lodash from "../../static/utils/lodash";
+
+export default {
+  data: {},
+  onLoad: function() {
+    const openId = wx.getStorageSync("openId");
+    if (openId) {
+      wx.switchTab({
+        url: "/pages/index/index"
+      });
+    }
+  },
+  onShow: function() {
+    const that = this;
+    wx.login({
+      success: function(res) {
+        getApp().cRequest({
+          url: "auth/getOpenId",
+          method: "post",
+          data: {
+            wxCode: res.code
+          },
+          success: function(res) {
+            wx.setStorageSync("openId", res.openId);
+          }
+        });
+      },
+      fail: function() {
+        // fail
+      },
+      complete: function() {
+        // complete
+      }
+    });
+  },
+  register: function(e) {
+    if (lodash.get(e.detail, "userInfo")) {
+      getApp().cRequest({
+        url: "auth/login",
+        method: "post",
+        hideToast: true,
+        data: Object.assign({ wxCode: this.data.wxCode }, e.detail.userInfo),
+        success: function(res) {
+          if (res) {
+            wx.setStorageSync("userInfo", res);
+            wx.switchTab({
+              url: "/pages/index/index"
+            });
+          }
+        }
+      });
+    }
+  }
+};
+</script>
+
+<style lang="less" scoped>
+</style>

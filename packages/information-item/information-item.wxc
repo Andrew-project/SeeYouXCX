@@ -1,101 +1,150 @@
-<template name="information-item">
-	<view class="item clearfloat padding-xsm  padding-bottom-xsm border-line-bottom border-color-global-base" wx:key="*this" wx:for="[1,2]">
-            <scroll-view scroll-y>
-                <image src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png" class="avatarUrl" lazy-load="true"></image>
-                <view class="item-content">
-                    <view class="h2">麻辣烫不烫<text class="float-right h3">昨天</text></view>
-                    <view class="h3 padding-right-xsm margin-height-xs desc">如果明天不下雨，我们就去动物园</view>
-                    <view>
-                        <block wx:if="{{mockImgs.length == 1}}">
-                            <image src="{{mockImgs[0]}}" mode="aspectFit" lazy-load="true" class="single-img margin-bottom-xsm" bindtap="previewImg" data-url="{{mockImgs[0]}}"></image>
-                        </block>
-                        <block wx:else>
-                            <view wx:for="{{mockImgs}}" wx:for-item="img" wx:key="*this" class="c-img float-left margin-bottom-xsm">
-                                <image src="{{img}}" mode="aspectFit" lazy-load="true" bindtap="previewImg" data-url="{{img}}"></image>
-                            </view>
-                        </block>
+<template>
+<view class="item clearfloat padding-xsm  padding-bottom-xsm border-line-bottom border-color-global-base" wx:key="*this" wx:for-index="idx" wx:for="{{records}}">
+    <scroll-view scroll-y>
+        <image src="{{item.userInfo.avatarUrl}}" class="avatarUrl" lazy-load="true"></image>
+        <view class="item-content">
+            <view class="h2">{{item.userInfo.nickName}}<text class="float-right h5 font-color-global-lighter">{{item.updatedAtStr}}</text></view>
+            <view class="h3 padding-right-xsm margin-height-xs desc">{{item.content.text}}</view>
+            <view>
+                <block wx:if="{{item.content.pictures.length == 1}}">
+                    <image src="{{item.content.pictures[0]}}" mode="aspectFit" lazy-load="true" class="single-img margin-bottom-xsm" bindtap="previewImg" data-url="{{item.content.pictures[0]}}"></image>
+                </block>
+                <block wx:else>
+                    <view wx:for="{{item.content.pictures}}" wx:for-item="img" wx:key="*this" class="c-img float-left margin-bottom-xsm">
+                        <image src="{{img}}" mode="aspectFit" lazy-load="true" bindtap="previewImg" data-url="{{img}}"></image>
                     </view>
-                    <view><text class="iconfont icon-shouye h5"></text><text class="h5 font-color-global-lighter margin-left-xxs">北京.大屯</text>
-                        <view class="float-right"><text class="iconfont icon-zixun margin-right-xsm" bindtap="focusContent"></text><text class="iconfont icon-zixun" bindtap="focusContent"></text></view>
-                    </view>
-                    <view class="dialog-box dialog-box-1">
-                        <text class="triangle"></text>
-                        <view class="padding-xxs">
-                            <block wx:for="[1,2,3]" wx:key="*this">
-                                <view class="font-color-blue" bindtap="commentToOther">昵称：<text class="font-color-global-lighter">x放大论法的精神范德萨练腹肌看电视了分机多少浪费xxx</text></view>
-                            </block>
-                        </view>
-                    </view>
+                </block>
+            </view>
+            <view><text class="iconfont icon-shouye h5"></text><text class="h5 font-color-global-lighter margin-left-xxs">{{item.address.province}}.{{item.address.city}}.{{item.address.district}}</text>
+                <view class="float-right"><text class="iconfont icon-zixun margin-right-xsm" bindtap="addVerb" data-idx="{{idx}}"data-verbs="{{item.verbs}}" data-id="{{item.id}}">{{item.verbs.length}}</text><text class="iconfont icon-zixun" bindtap="focusContent"></text></view>
+            </view>
+            <view class="dialog-box dialog-box-1" wx:if="{{item.reviews && item.reviews.length > 0}}">
+                <text class="triangle"></text>
+                <view class="padding-xxs">
+                    <block wx:for="{{item.reviews}}" wx:key="*this" wx:for-item="reviewItem">
+                        <view class="font-color-blue" bindtap="commentToOther">昵称：<text class="font-color-global-lighter">x放大论法的精神范德萨练腹肌看电视了分机多少浪费xxx</text></view>
+                    </block>
                 </view>
-            </scroll-view>
+            </view>
         </view>
-        <textarea bindblur="bindTextAreaBlur" value="{{comment}}" bindconfirm="confirmComment" auto-height placeholder="{{textareaPlaceHolder}}" fixed="{{true}}" focus="{{focus}}" style="position:absolute;background:#f5f5f5;top:{{inputTop}}px;width:100%;padding:20rpx;z-index:1000;opacity:{{focus? 1 :0}}" />
+    </scroll-view>
+</view>
+<textarea bindblur="bindTextAreaBlur" value="{{comment}}" bindconfirm="confirmComment" auto-height placeholder="{{textareaPlaceHolder}}" fixed="{{true}}" focus="{{focus}}" style="position:absolute;background:#f5f5f5;top:{{inputTop}}px;width:100%;padding:20rpx;z-index:1000;opacity:{{focus? 1 :0}}" />
 </template>
+
 <script>
+import { calcuDate } from "../../static/utils/date.js";
+import toast from "../../static/utils/toast.js";
+const app = getApp();
 export default {
-	properties: {
-		 mockImgs: {
-			 type: Array
-		 },
+  properties: {
+    records: {
+      type: Array,
+      value: [],
+      observer(value) {
+        (value || []).map(it => {
+          it.updatedAtStr = calcuDate(it.updatedAt);
+          return it;
+        });
+        this.setData({
+          records: value
+        });
+      }
+    },
     focus: {
-		type: Boolean,
-		value: false
-	},
+      type: Boolean,
+      value: false
+    },
     inputTop: {
-		type: Number,
-		value: 0
-	},
+      type: Number,
+      value: 0
+    },
     comment: {
-		type: String,
-		value: ''
-	},
+      type: String,
+      value: ""
+    },
     textareaPlaceHolder: {
-		type: String	
-		}
-	},
-	methods: {
-		previewImg: function (e) {
-			console.log(e)
-			const that = this;
-			wx.previewImage({
-				current: e.currentTarget.dataset.url, // 当前显示图片的http链接
-				urls: [e.currentTarget.dataset.url], // 需要预览的图片http链接列表
-				success: function(e) {
-					that.triggerEvent("hasPreviewImg", {isPreview: true});
-				}
-    		});
-		},
-		focusContent: function(e) {
-			this.setData({
-			focus: true,
-			comment: "",
-			textareaPlaceHolder: "请赞美你的ta吧~~~~",
-			inputTop: e.detail.y + 20
-			});
-		},
-		bindTextAreaBlur: function(e) {
-			this.setData({
-			focus: false,
-			comment: "",
-			textareaPlaceHolder: "请赞美你的ta吧~~~~",
-			inputTop: 0
-			});
-		},
-		// 回复其他人信息
-		commentToOther: function(e) {
-			this.focusContent(e);
-			this.setData({
-			textareaPlaceHolder: "@xxx:"
-			});
-		},
-		confirmComment: function(e) {
-			console.info(e);
-		}
-	}
+      type: String
+    }
+  },
+  data: {
+    records: []
+  },
+  methods: {
+    previewImg: function(e) {
+      console.log(e);
+      const that = this;
+      wx.previewImage({
+        current: e.currentTarget.dataset.url, // 当前显示图片的http链接
+        urls: [e.currentTarget.dataset.url], // 需要预览的图片http链接列表
+        success: function(e) {
+          that.triggerEvent("hasPreviewImg", {
+            isPreview: true
+          });
+        }
+      });
+    },
+    focusContent: function(e) {
+      this.setData({
+        focus: true,
+        comment: "",
+        textareaPlaceHolder: "请赞美你的ta吧~~~~",
+        inputTop: e.detail.y + 20
+      });
+    },
+    bindTextAreaBlur: function(e) {
+      this.setData({
+        focus: false,
+        comment: "",
+        textareaPlaceHolder: "请赞美你的ta吧~~~~",
+        inputTop: 0
+      });
+    },
+    // 回复其他人信息
+    commentToOther: function(e) {
+      this.focusContent(e);
+      this.setData({
+        textareaPlaceHolder: "@xxx:"
+      });
+    },
+    confirmComment: function(e) {
+      console.info(e);
+    },
+    addVerb: function(e) {
+      const verbs = e.currentTarget.dataset.verbs || [];
+      if (
+        verbs.filter(
+          v => v.isVerb == true && v.fromId == wx.getStorageSync("openId")
+        ).length
+      ) {
+        toast.show("none", "您已经点赞了~");
+        return;
+      }
+      app.cRequest({
+        url: "record/verb",
+        method: "post",
+        hideToast: true,
+        data: {
+          id: parseInt(e.currentTarget.dataset.id),
+          isVerb: true
+        },
+        success: res => {
+          if (res) {
+            res.updatedAtStr = calcuDate(res.updatedAt);
+            this.setData({
+              [`records[${parseInt(e.currentTarget.dataset.idx)}]`]: res
+            });
+          }
+        }
+      });
+    }
+  }
 };
 </script>
+
 <style lang="less" scoped>
 @import "../../static/styles/other.less";
+
 .item {
   .avatarUrl {
     width: 120rpx;

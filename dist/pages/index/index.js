@@ -3,6 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _lodash = require("../../static/utils/lodash.js");
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 var app = getApp();
 
 var QQMapWX = require("../../static/libs/qqmap-wx-jssdk.min.js");
@@ -31,7 +38,7 @@ exports.default = Page({
       title: "七夕好货，独家礼赠"
     }],
     imgSrc: "https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png",
-    mockImgs: ["https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"],
+    recordsList: [],
     focus: false,
     inputTop: 0,
     comment: "",
@@ -92,6 +99,15 @@ exports.default = Page({
     });
   },
   onLoad: function onLoad() {
+    // if (wx.getStorageSync("userInfo")) {
+    //   getApp().cRequest({
+    //     url: "auth/login",
+    //     method: "post",
+    //     success: res => {
+    //       console.log(res);
+    //     }
+    //   });
+    // }
     // 实例化API核心类 - 地图
     qqmapsdk = new QQMapWX({
       key: "YVKBZ-OOCRF-FFPJE-NZHVT-SWGU7-SCFES"
@@ -105,10 +121,25 @@ exports.default = Page({
     //     console.log(res);
     //   }
     // });
-    console.log('是否预览了图片：', this.data.isPreview);
+    this.getRecords();
+    console.log("是否预览了图片：", this.data.isPreview);
     if (!this.data.isPreview) {
       this.getUserLocation();
     }
+  },
+  getRecords: function getRecords() {
+    var _this = this;
+
+    app.cRequest({
+      url: "record/list",
+      success: function success(res) {
+        if (_lodash2.default.isArray(res)) {
+          _this.setData({
+            recordsList: res
+          });
+        }
+      }
+    });
   },
   previewImg: function previewImg(e) {
     this.setData({
@@ -223,13 +254,15 @@ exports.default = Page({
       },
       success: function success(res) {
         console.log(res);
-        var province = res.result.ad_info.province;
-        var city = res.result.ad_info.city;
-        vm.setData({
-          province: province,
-          city: city,
-          latitude: latitude,
-          longitude: longitude
+        wx.setStorage({
+          key: "localAddress",
+          data: {
+            province: res.result.ad_info.province,
+            city: res.result.ad_info.city,
+            district: res.result.ad_info.district,
+            latitude: latitude,
+            longitude: longitude
+          }
         });
       },
       fail: function fail(res) {

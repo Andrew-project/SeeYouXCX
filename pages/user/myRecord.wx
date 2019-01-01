@@ -1,7 +1,7 @@
 <template>
 <nav-bar nav-title="发布记录" is-back="true"></nav-bar>
 <view class="background-color-white">
-    <information-item mockImgs="{{mockImgs}}" bindhasPreviewImg="previewImg"></information-item>
+    <information-item records="{{records}}"></information-item>
 </view>
 </template>
 
@@ -14,9 +14,16 @@ export default {
     }
   },
   data: {
-    mockImgs: []
+    records: []
   },
-  previewImg: function(e) {}
+  onLoad: function(e) {
+    try {
+      const records = wx.getStorageSync("recordsByMe");
+      this.setData({
+        records: records || []
+      });
+    } catch (e) {}
+  }
 };
 </script>
 

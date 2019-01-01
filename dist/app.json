@@ -1,8 +1,9 @@
 {
   "pages": [
+    "pages/guide/guide",
+    "pages/index/index",
     "pages/user/user",
     "pages/user/myRecord",
-    "pages/index/index",
     "pages/user/feedback",
     "pages/user/setting",
     "pages/issue/new-issue",
@@ -13,10 +14,10 @@
   ],
   "window": {
     "navigationStyle": "custom",
-    "backgroundTextStyle": "dark",
+    "backgroundTextStyle": "white",
     "backgroundColor": "#fbf7f6",
     "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTitleText": "see you",
+    "navigationBarTitleText": "漂流圈子",
     "navigationBarTextStyle": "black",
     "navigationBarBorderColor": "rgba(231, 231, 231, 0.6)"
   },

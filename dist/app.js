@@ -58,7 +58,7 @@ exports.default = App({
         var baseURL = "http://yapi.youhujia.com/mock/39/weixin/v1/";
         break;
       case "dev":
-        var baseURL = "http://api-dev.flin.youhujia.com/weixin/v1/";
+        var baseURL = "http://192.168.0.102:3000/api/v1/wx/";
         break;
       case "pro":
         var baseURL = "https://api.yhcloud.youhujia.com/weixin/v1/";
@@ -69,7 +69,7 @@ exports.default = App({
     var wxReqOption = {
       method: "GET",
       header: {
-        Authorization: getApp().token,
+        Authorization: wx.getStorageSync("openId"),
         "Content-Type": "application/json",
         Accept: "application/json"
       }
@@ -94,38 +94,11 @@ exports.default = App({
           if (resp.status === 500 || resp.status === 405 || resp.status === 404) {
             _toast2.default.show("warn", resp.error);
           } else if (resp.result.code == 401) {
-            _toast2.default.show("warn", "登录失败", 2000, function () {
-              try {
-                var organizationId = wx.getStorageSync("orgId") || -1;
-                if (organizationId) {
-                  _toast2.default.show("loading", "重新登录中...");
-                  getApp().login(organizationId, function (token) {
-                    if (token) {
-                      getApp().setTokenFromOptions({
-                        token: token
-                      });
-                      getApp().cRequest(reqOpt);
-                    } else {
-                      wx.redirectTo({
-                        url: "/pages/register/register"
-                      });
-                    }
-                  });
-                }
-              } catch (e) {}
-            });
+            _toast2.default.show("warn", "登录失败", 2000, function () {});
           } else if (resp.result.code == 500) {
             _toast2.default.show("warn", "服务器错误");
-          } else if (resp.result.code == 1002 || resp.result.code == 11514) {
-            if (!isHideError) {
-              _toast2.default.show("warn", resp.result.displaymsg, 2000, function () {
-                wx.navigateTo({
-                  url: "/pages/user/add-family/add-family"
-                });
-              });
-            }
-          } else if (!resp.result.success && resp.result.displaymsg) {
-            _toast2.default.show("warn", resp.result.displaymsg);
+          } else if (!resp.result.success && resp.result.displayMsg) {
+            _toast2.default.show("warn", resp.result.displayMsg);
           }
           options.fail && options.fail(res);
         }
@@ -133,7 +106,7 @@ exports.default = App({
       fail: function fail(res) {
         console.warn(res);
         _toast2.default.hidden();
-        _toast2.default.showNormalToast("请求失败");
+        _toast2.default.show("warn", "请求失败");
 
         setTimeout(function () {
           _toast2.default.hidden();
@@ -146,7 +119,7 @@ exports.default = App({
     });
 
     if (!isHideToast) {
-      _toast2.default.showNormalToast(wxReqOption.method == "GET" ? "加载中..." : "请求中...");
+      _toast2.default.showNormalLoading(wxReqOption.method == "GET" ? "加载中..." : "请求中...");
     }
     wx.request(wxReqOption);
   },

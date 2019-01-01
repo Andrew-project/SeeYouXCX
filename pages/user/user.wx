@@ -15,10 +15,10 @@
       <image class="header-imgbg" src="../../static/images/icon_home_bg.png"/>
       <view class="header-cont" wx:if="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
         <view class="header-head">
-          <open-data type="userAvatarUrl" class="header-img"></open-data>
+        <image class="header-img" src="{{userInfo.avatarUrl}}"></image>
           <view class="header-name">
-            <open-data type="userNickName"></open-data>
-            <text class="signature">{{signature}}</text>
+            <h3>{{userInfo.nickName}}</h3>
+            <text class="signature">{{userInfo.description || '用一句话介绍下自己吧'}}</text>
           </view>
         </view>
         <view class="header-setting" bindtap="toDetails">
@@ -28,12 +28,12 @@
       <view wx:else>请升级微信版本</view>
       <view class="home-data">
         <view class="data-list data-befor" bindtap="toRecords">
-          <text>999</text>
-          <text>我的心愿</text>
+          <text>{{recordsLen}}</text>
+          <text>我的心情</text>
         </view>
         <view class="data-list">
-          <text>999</text>
-          <text>收到的赞</text>
+          <text>{{perVerbs}}</text>
+          <text>平均点赞</text>
         </view>
         <!-- <view class="data-list">
           <text>999</text>
@@ -93,6 +93,8 @@
 </template>
 
 <script>
+const app = getApp();
+import lodash from "../../static/utils/lodash.js";
 export default {
   config: {
     disableScroll: false,
@@ -103,7 +105,9 @@ export default {
   data: {
     canIUse: wx.canIUse("button.open-type.getUserInfo"),
     signature: "",
-    NAV_HEIGHT: wx.STATUS_BAR_HEIGHT + wx.DEFAULT_HEADER_HEIGHT + "px"
+    NAV_HEIGHT: wx.STATUS_BAR_HEIGHT + wx.DEFAULT_HEADER_HEIGHT + "px",
+    recordsLen: 0,
+    perVerbs: 0
   },
   // 跳转到我的记录
   toRecords() {
@@ -135,10 +139,31 @@ export default {
       url: "/pages/user/aboutUs"
     });
   },
-  // 页面执行后从缓存中获取设置的签名，有接口后可不需要这样操作
   onShow() {
-    this.setData({
-      signature: wx.getStorageSync("signature") || "用一句话介绍下自己吧"
+    try {
+      const userInfo = wx.getStorageSync("userInfo");
+      if (userInfo) {
+        this.setData({
+          userInfo: userInfo
+        });
+      }
+    } catch (e) {}
+
+    app.cRequest({
+      url: "record/list/me",
+      success: res => {
+        if (lodash.isArray(res)) {
+          let vers = 0;
+          res.forEach(
+            it => (vers += it.verbs.filter(v => v.isVerb == true).length)
+          );
+          this.setData({
+            perVerbs: lodash.ceil(vers / res.length),
+            recordsLen: res.length
+          });
+          wx.setStorageSync("recordsByMe", res);
+        }
+      }
     });
   },
   onLoad: function() {

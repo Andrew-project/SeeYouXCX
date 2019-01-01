@@ -3,11 +3,21 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+
+var _lodash = require("../../static/utils/lodash.js");
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var app = getApp();
 exports.default = Page({
   data: {
     canIUse: wx.canIUse("button.open-type.getUserInfo"),
     signature: "",
-    NAV_HEIGHT: wx.STATUS_BAR_HEIGHT + wx.DEFAULT_HEADER_HEIGHT + "px"
+    NAV_HEIGHT: wx.STATUS_BAR_HEIGHT + wx.DEFAULT_HEADER_HEIGHT + "px",
+    recordsLen: 0,
+    perVerbs: 0
   },
   // 跳转到我的记录
   toRecords: function toRecords() {
@@ -43,11 +53,35 @@ exports.default = Page({
       url: "/pages/user/aboutUs"
     });
   },
-
-  // 页面执行后从缓存中获取设置的签名，有接口后可不需要这样操作
   onShow: function onShow() {
-    this.setData({
-      signature: wx.getStorageSync("signature") || "用一句话介绍下自己吧"
+    var _this = this;
+
+    try {
+      var userInfo = wx.getStorageSync("userInfo");
+      if (userInfo) {
+        this.setData({
+          userInfo: userInfo
+        });
+      }
+    } catch (e) {}
+
+    app.cRequest({
+      url: "record/list/me",
+      success: function success(res) {
+        if (_lodash2.default.isArray(res)) {
+          var vers = 0;
+          res.forEach(function (it) {
+            return vers += it.verbs.filter(function (v) {
+              return v.isVerb == true;
+            }).length;
+          });
+          _this.setData({
+            perVerbs: _lodash2.default.ceil(vers / res.length),
+            recordsLen: res.length
+          });
+          wx.setStorageSync("recordsByMe", res);
+        }
+      }
     });
   },
 
